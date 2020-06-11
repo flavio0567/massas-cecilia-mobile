@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import Porch from '../pages/Porch';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 
@@ -12,8 +13,13 @@ const AuthRoutes: React.FC = () => (
       headerShown: false,
     }}
   >
-    <Auth.Screen name="SignIn" component={SignIn} />
-    <Auth.Screen name="SignUp" component={SignUp} />
+    <Auth.Screen name="Porch" component={Porch} />
+    <Auth.Screen name="Login" component={SignIn} options={{ title: 'Login' }} />
+    <Auth.Screen
+      name="Cadastrar"
+      component={SignUp}
+      options={{ title: 'Cadastrar' }}
+    />
   </Auth.Navigator>
 );
 

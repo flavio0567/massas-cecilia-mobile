@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { RectButton } from 'react-native-gesture-handler';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
@@ -34,17 +35,23 @@ export const ButtonText = styled.Text`
 `;
 
 export const GuestSelection = styled.TouchableOpacity`
-  margin-left: 130px;
-  top: 740px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 10px 0 ${10 + getBottomSpace()}px;
 
+  justify-content: center;
   flex-direction: row;
   align-items: center;
 `;
 
 export const GuestText = styled.Text`
+  font-family: 'RobotoSlab-Medium';
   color: #ff9000;
+  font-size: 16px;
 `;
 
 export const Icon = styled(FeatherIcon)`
-  margin-right: 10px;
+  margin-right: 8px;
 `;

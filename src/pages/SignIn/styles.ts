@@ -1,6 +1,8 @@
 import styled from 'styled-components/native';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import { ForceTouchGestureHandler } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
@@ -17,31 +19,30 @@ export const SectionSeparator = styled.View`
 export const LineSeparator = styled.View`
   height: 2px;
   width: 140px;
-  margin: 0 10px 0 10px;
+  margin: 0 10px 80px 10px;
   border: 1px;
-  border-color: #ff9000;
+  border-color: #999;
 `;
 
 export const TextSeparator = styled.Text`
-  color: #ff9000;
+  margin-bottom: 80px;
+  color: #999;
 `;
 
 export const Title = styled.Text`
-  font-size: 18px;
-  color: #ff9000;
+  font-size: 24px;
+  color: #999;
   font-family: 'RobotoSlab-Medium';
-  margin: 64px 0 40px;
+  margin-top: 80px;
 `;
 
 export const Image = styled.Image`
-  margin: 40px 0;
-  width: 340px;
-
-  height: 200px;
-  width: 120px;
+  margin: 100px 0 100px;
+  width: 200px;
+  height: 30px;
 `;
 
-export const GuestSelection = styled.TouchableOpacity`
+export const ForgotPasswordButton = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
 
@@ -49,8 +50,33 @@ export const GuestSelection = styled.TouchableOpacity`
   margin: 10px;
 `;
 
+ForgotPasswordButton.displayName = 'ForgotPasswordButton';
+
 export const GuestText = styled.Text`
+  font-size: 16px;
+  font-family: 'RobotoSlab-Regular';
   color: #ff9000;
+`;
+
+export const CreateAccountButton = styled.TouchableOpacity`
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: #ff9000;
+  border-top-width: 1px;
+  border-color: #312e38;
+  padding: 10px 0 ${10 + getBottomSpace()}px;
+
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const CreateAccountButtonText = styled.Text`
+  color: #fff;
+  font-size: 16px;
+  font-family: 'RobotoSlab-Regular';
 `;
 
 export const Icon = styled(FeatherIcon)`

@@ -1,4 +1,6 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
+// import { prop } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
 import {
   View,
@@ -13,66 +15,83 @@ import * as Yup from 'yup';
 
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
+import api from '../../service/api';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
-import { useAuth } from '../../hooks/auth';
-
 import Input from '../../components/Input';
-import Button from '../../components/Button';
 
-import logoImg from '../../assets/logo_massas.png';
-
-import { Container, Title, Image } from './styles';
+import {
+  Container,
+  Title,
+  Icon,
+  TextOptional,
+  RegisterButton,
+  ReturnButton,
+  ReturnButtonText,
+  CheckBoxAgreement,
+  Checkbox,
+  Agreement,
+  TextAgreement,
+} from './styles';
 
 interface SignInFormData {
-  email: string;
+  name: string;
+  mobile: string;
   password: string;
+  passwordConfirm: string;
+  email?: string;
 }
 
-const SignIn: React.FC = () => {
+const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
+  const navigation = useNavigation();
   const passwordInputRef = useRef<TextInput>(null);
+  const passwordConfirmInputRef = useRef<TextInput>(null);
+  const mobileInputRef = useRef<TextInput>(null);
+  const emailInputRef = useRef<TextInput>(null);
+  const [checked, setChecked] = useState(false);
 
-  const { signIn, user } = useAuth();
+  const handleSignUp = useCallback(async (data: SignInFormData) => {
+    try {
+      formRef.current?.setErrors({});
 
-  console.log('user:', user);
+      const schema = Yup.object().shape({
+        name: Yup.string().required('Nome obrigatório.'),
+        mobile: Yup.number().required('Número do celular obrigatório.'),
+        password: Yup.string().min(6, 'Senha no mínimo 6 dígitos.'),
+        email: Yup.string().email('Formato do e-mail invalido.'),
+        password_confirmation: Yup.string().required('Senha obrigatória.'),
+      });
 
-  const handleSignIn = useCallback(
-    async (data: SignInFormData) => {
-      try {
-        formRef.current?.setErrors({});
+      await schema.validate(data, {
+        abortEarly: false,
+      });
 
-        const schema = Yup.object().shape({
-          email: Yup.string()
-            .email('Formato do e-mail invalido.')
-            .required('E-mail obrigatório'),
-          password: Yup.string().required('Senha obrigatória.'),
-        });
+      await api.post('/users', data);
 
-        await schema.validate(data, {
-          abortEarly: false,
-        });
+      Alert.alert(
+        'Cadastro realizado com sucesso!',
+        'Você será redirecionado ao login.',
+      );
 
-        await signIn({
-          email: data.email,
-          password: data.password,
-        });
-      } catch (err) {
-        if (err instanceof Yup.ValidationError) {
-          const errors = getValidationErrors(err);
+      navigation.goBack();
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(err);
 
-          formRef.current?.setErrors(errors);
-        }
+        console.log(errors);
 
-        Alert.alert(
-          'Erro na autenticação',
-          'Ocorreu erro ao fazer login, cheque suas credenciais.',
-        );
+        formRef.current?.setErrors(errors);
       }
-    },
-    [signIn],
-  );
+      console.log(err);
+
+      Alert.alert(
+        'Erro no cadastro',
+        'Ocorreu erro ao cadastrar, os seus dados estão incompletos.',
+      );
+    }
+  }, []);
 
   return (
     <>
@@ -86,20 +105,31 @@ const SignIn: React.FC = () => {
           contentContainerStyle={{ flex: 1 }}
         >
           <Container>
-            <Image source={logoImg} />
-
             <View>
-              <Title>Faça seu logon</Title>
+              <Title>Faça o seu cadastro</Title>
             </View>
 
-            <Form ref={formRef} onSubmit={handleSignIn}>
+            <Form ref={formRef} onSubmit={handleSignUp}>
               <Input
                 autoCorrect={false}
+                autoCapitalize="words"
+                name="name"
+                icon="user"
+                placeholder="Nome"
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  mobileInputRef.current?.focus;
+                }}
+              />
+
+              <Input
+                ref={mobileInputRef}
+                autoCorrect={false}
                 autoCapitalize="none"
-                keyboardType="email-address"
-                name="email"
-                icon="mail"
-                placeholder="E-mail"
+                keyboardType="phone-pad"
+                name="mobile"
+                icon="phone"
+                placeholder="Número do celular"
                 returnKeyType="next"
                 onSubmitEditing={() => {
                   passwordInputRef.current?.focus;
@@ -114,16 +144,74 @@ const SignIn: React.FC = () => {
                 secureTextEntry
                 returnKeyType="send"
                 onSubmitEditing={() => {
+                  passwordConfirmInputRef.current?.focus;
+                }}
+              />
+
+              <Input
+                ref={passwordConfirmInputRef}
+                name="password_confirmation"
+                icon="lock"
+                placeholder="Confirme a senha"
+                secureTextEntry
+                returnKeyType="send"
+                onSubmitEditing={() => {
+                  emailInputRef.current?.focus;
+                }}
+              />
+
+              <Input
+                ref={emailInputRef}
+                autoCorrect={false}
+                autoCapitalize="none"
+                keyboardType="email-address"
+                name="email"
+                icon="mail"
+                placeholder="E-mail"
+                returnKeyType="send"
+                onSubmitEditing={() => {
                   formRef.current?.submitForm();
                 }}
               />
-              <Button
+              <TextOptional>Opcional</TextOptional>
+
+              <Agreement>
+                <CheckBoxAgreement
+                  onPress={() => {
+                    checked ? setChecked(false) : setChecked(true);
+                  }}
+                >
+                  <Checkbox>
+                    {checked ? (
+                      <Icon name="check" size={14} color="#666360" />
+                    ) : (
+                      <Icon name="check" size={14} color="#F0F0F0F0" />
+                    )}
+                  </Checkbox>
+                </CheckBoxAgreement>
+                <TextAgreement>
+                  Sim, concordo em receber mensagem de texto e/ou email sobre
+                  futuros eventos, ofertas e promoções.
+                </TextAgreement>
+              </Agreement>
+
+              <RegisterButton
                 onPress={() => {
                   formRef.current?.submitForm();
                 }}
               >
-                Entrar
-              </Button>
+                Cadastrar
+              </RegisterButton>
+
+              <ReturnButton
+                onPress={() => {
+                  navigation.goBack();
+                  // navigation.native('Porch');
+                }}
+              >
+                <Icon name="arrow-left" size={20} color="#ff9000" />
+                <ReturnButtonText>Retornar ao início</ReturnButtonText>
+              </ReturnButton>
             </Form>
           </Container>
         </ScrollView>
@@ -132,4 +220,4 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;

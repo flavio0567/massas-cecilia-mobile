@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from 'react';
-
+import { prop } from '@react-navigation/stack';
 import {
   View,
   ScrollView,
@@ -27,7 +27,9 @@ import {
   Container,
   Title,
   Image,
-  GuestSelection,
+  ForgotPasswordButton,
+  CreateAccountButton,
+  CreateAccountButtonText,
   GuestText,
   Icon,
   SectionSeparator,
@@ -36,17 +38,15 @@ import {
 } from './styles';
 
 interface SignInFormData {
-  email: string;
+  mobile: string;
   password: string;
 }
 
-const SignIn: React.FC = () => {
+const SignIn: React.FC = ({ navigation }: prop) => {
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
 
   const { signIn, user } = useAuth();
-
-  console.log('user:', user);
 
   const handleSignIn = useCallback(
     async (data: SignInFormData) => {
@@ -54,9 +54,7 @@ const SignIn: React.FC = () => {
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
-          email: Yup.string()
-            .email('Formato do e-mail invalido.')
-            .required('E-mail obrigatório'),
+          mobile: Yup.number().required('Número do celular obrigatório'),
           password: Yup.string().required('Senha obrigatória.'),
         });
 
@@ -65,14 +63,18 @@ const SignIn: React.FC = () => {
         });
 
         await signIn({
-          email: data.email,
+          mobile: data.mobile,
           password: data.password,
         });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
 
+          console.log(errors);
+
           formRef.current?.setErrors(errors);
+
+          return;
         }
 
         Alert.alert(
@@ -96,23 +98,23 @@ const SignIn: React.FC = () => {
           contentContainerStyle={{ flex: 1 }}
         >
           <Container>
-            <Image source={fbImg} style={{ width: 180, height: 30 }} />
+            <View>
+              <Title>Faça seu login</Title>
+            </View>
+
+            <Image source={fbImg} />
             <SectionSeparator>
               <LineSeparator />
               <TextSeparator>ou</TextSeparator>
               <LineSeparator />
             </SectionSeparator>
 
-            <View>
-              <Title>Faça seu login</Title>
-            </View>
-
             <Form ref={formRef} onSubmit={handleSignIn}>
               <Input
                 autoCorrect={false}
                 autoCapitalize="none"
-                keyboardType="email-address"
-                name="phone"
+                keyboardType="phone-pad"
+                name="mobile"
                 icon="phone"
                 placeholder="Número do celular"
                 returnKeyType="next"
@@ -141,22 +143,21 @@ const SignIn: React.FC = () => {
               </Button>
             </Form>
 
-            <GuestSelection
+            <ForgotPasswordButton
               onPress={() => {
-                console.log('ResetPassword');
+                console.log('ForgotPassword');
               }}
             >
-              <Icon name="frown" size={15} color="#ff9000" />
-              <GuestText>Esqueceu sua senha?</GuestText>
-            </GuestSelection>
-            <GuestSelection
+              <GuestText>Esqueci minha senha</GuestText>
+            </ForgotPasswordButton>
+            <CreateAccountButton
               onPress={() => {
-                console.log('SignUp');
+                navigation.navigate('Cadastrar');
               }}
             >
-              <Icon name="user-plus" size={15} color="#ff9000" />
-              <GuestText>Criar uma conta</GuestText>
-            </GuestSelection>
+              <Icon name="log-in" size={20} color="#fff" />
+              <CreateAccountButtonText>Criar uma conta</CreateAccountButtonText>
+            </CreateAccountButton>
           </Container>
         </ScrollView>
       </KeyboardAvoidingView>

@@ -15,7 +15,7 @@ interface AuthState {
 }
 
 interface SignInCredentials {
-  email: string;
+  mobile: string;
   password: string;
 }
 
@@ -31,6 +31,14 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>({} as AuthState);
   const [loading, setLoading] = useState(true);
+
+  // useEffect(() => {
+  //   async function clearAll(): Promise<void> {
+  //     await AsyncStorage.multiRemove(['@TorreNegra:token', '@TorreNegra:user']);
+  //   }
+
+  //   clearAll();
+  // }, []);
 
   useEffect(() => {
     async function loadStorageData(): Promise<void> {
@@ -49,9 +57,9 @@ const AuthProvider: React.FC = ({ children }) => {
     loadStorageData();
   }, []);
 
-  const signIn = useCallback(async ({ email, password }) => {
+  const signIn = useCallback(async ({ mobile, password }) => {
     const response = await api.post('sessions', {
-      email,
+      mobile,
       password,
     });
 

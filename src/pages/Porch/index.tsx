@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ImageBackground, Image } from 'react-native';
+import { prop } from '@react-navigation/stack';
 
 import logoImg from '../../assets/logo_massas.png';
 import massasImg from '../../assets/massa_artesanal.png';
@@ -16,7 +17,7 @@ import {
 
 // import api from '../../service/api';
 
-const App: React.FC = () => {
+const App: React.FC = ({ navigation }: prop) => {
   return (
     <Container>
       <ImageBackground
@@ -36,7 +37,7 @@ const App: React.FC = () => {
         <ButtonContainer>
           <ButtonSelection
             onPress={() => {
-              console.log('Entrar');
+              navigation.navigate('Login');
             }}
           >
             <ButtonText>Entrar</ButtonText>
@@ -44,7 +45,7 @@ const App: React.FC = () => {
 
           <ButtonSelection
             onPress={() => {
-              console.log('Cadastrar');
+              navigation.navigate('Cadastrar');
             }}
           >
             <ButtonText>Cadastrar</ButtonText>
@@ -53,7 +54,7 @@ const App: React.FC = () => {
 
         <GuestSelection
           onPress={() => {
-            console.log('Guest');
+            navigation.native('Order');
           }}
         >
           <Icon name="log-in" size={20} color="#ff9000" />
