@@ -83,8 +83,6 @@ target 'massasdacecilia' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
-  pod 'RNCCheckbox', :path => '../node_modules/@react-native-community/checkbox'
-
   target 'massasdaceciliaTests' do
     inherit! :complete
     # Pods for testing
