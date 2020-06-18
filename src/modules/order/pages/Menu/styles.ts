@@ -49,6 +49,7 @@ export const StartusBarText = styled.Text`
 export const CartIcon = styled(Icon)`
   margin-right: 20px;
   color: #fff;
+  z-index: -1;
 `;
 
 export const SectionSeparator = styled.View`
@@ -64,7 +65,7 @@ export const LineSeparator = styled.View`
   border-color: #999;
 `;
 
-export const ProductSection = styled.View`
+export const ProductList = styled.View`
   flex-direction: row;
 
   justify-content: space-between;

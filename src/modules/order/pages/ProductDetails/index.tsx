@@ -1,6 +1,8 @@
 import React, { useState, useRef, useCallback } from 'react';
+import { connect } from 'react-redux';
 
 import { View, StatusBar, Platform, ScrollView, TextInput } from 'react-native';
+import { Badge, withBadge } from 'react-native-elements';
 
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
@@ -25,16 +27,19 @@ import {
   QuantityView,
 } from './styles';
 
-const ProductDetails: React.FC = ({ navigation, route }: any) => {
-  const { params } = route;
-  const { navigate } = navigation;
+const ProductDetails: React.FC = (props: any) => {
+  console.log('props:', props);
+
+  const { dispatch } = props;
+  const { navigation } = props;
+  const { params } = props;
   const [value, setValue] = useState(1);
 
   const formRef = useRef<FormHandles>(null);
 
   const [checked, setChecked] = useState(false);
 
-  function handlePlusMinusButton(e: number): number {
+  function handlePlusMinusButton(e: number): void {
     if (value >= 1 && e === 1) {
       setValue(value + e);
     } else if (value === 1 && e === 1) {
@@ -42,6 +47,11 @@ const ProductDetails: React.FC = ({ navigation, route }: any) => {
     }
   }
 
+  const handleAddProduct = (product) => {};
+  dispatch({
+    type: 'ADD_TO_CART',
+    product,
+  });
   return (
     <Container>
       <View
@@ -51,7 +61,11 @@ const ProductDetails: React.FC = ({ navigation, route }: any) => {
         }}
       >
         <Header>
-          <SelectionButton onPress={() => navigate('Products')}>
+          <SelectionButton
+            onPress={() => {
+              console.log('deu!');
+            }}
+          >
             <ChevronIcon name="chevron-left" size={22} />
           </SelectionButton>
 
@@ -63,8 +77,10 @@ const ProductDetails: React.FC = ({ navigation, route }: any) => {
           <StartusBarText>Massas - Talharim</StartusBarText>
           <SelectionButton
             onPress={
-              () => navigate('OrderDetails', { caller: 'ProductDetails' })
-              // eslint-disable-next-line react/jsx-curly-newline
+              () => {
+                console.log('deu tb!');
+              }
+              // () => navigate('OrderDetails', { caller: 'ProductDetails' })
             }
           >
             <CartIcon name="shopping-cart" size={22} />
@@ -113,7 +129,7 @@ const ProductDetails: React.FC = ({ navigation, route }: any) => {
       <ButtonContainer>
         <ButtonSelection
           onPress={() => {
-            navigate('Order');
+            handleAddProduct();
           }}
         >
           <ButtonText>Adicionar ao pedido</ButtonText>
@@ -124,4 +140,4 @@ const ProductDetails: React.FC = ({ navigation, route }: any) => {
   );
 };
 
-export default ProductDetails;
+export default connect()(ProductDetails);
