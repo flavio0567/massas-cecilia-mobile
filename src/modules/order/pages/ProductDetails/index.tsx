@@ -14,7 +14,6 @@ import {
   StartusBarText,
   CartIcon,
   ProductText,
-  ComplementText,
   SelectionButton,
   LineSeparator,
   AddInformation,
@@ -27,12 +26,9 @@ import {
   QuantityView,
 } from './styles';
 
-const ProductDetails: React.FC = (props: any) => {
-  console.log('props:', props);
-
-  const { dispatch } = props;
-  const { navigation } = props;
-  const { params } = props;
+const ProductDetails: React.FC = ({ navigation, route }) => {
+  const { name, sales_price, caller } = route.params;
+  const { navigate } = navigation;
   const [value, setValue] = useState(1);
 
   const formRef = useRef<FormHandles>(null);
@@ -47,11 +43,12 @@ const ProductDetails: React.FC = (props: any) => {
     }
   }
 
-  const handleAddProduct = (product) => {};
-  dispatch({
-    type: 'ADD_TO_CART',
-    product,
-  });
+  const handleAddProduct = () => {};
+
+  // dispatch({
+  //   type: 'ADD_TO_CART',
+  //   product,
+  // });
   return (
     <Container>
       <View
@@ -63,7 +60,7 @@ const ProductDetails: React.FC = (props: any) => {
         <Header>
           <SelectionButton
             onPress={() => {
-              console.log('deu!');
+              navigate(caller);
             }}
           >
             <ChevronIcon name="chevron-left" size={22} />
@@ -74,11 +71,11 @@ const ProductDetails: React.FC = (props: any) => {
             backgroundColor="#ff9000"
             barStyle="light-content"
           />
-          <StartusBarText>Massas - Talharim</StartusBarText>
+          <StartusBarText>Adicionar item ao pedido</StartusBarText>
           <SelectionButton
             onPress={
               () => {
-                console.log('deu tb!');
+                navigate(caller);
               }
               // () => navigate('OrderDetails', { caller: 'ProductDetails' })
             }
@@ -88,11 +85,16 @@ const ProductDetails: React.FC = (props: any) => {
         </Header>
       </View>
       <ScrollView>
-        <ProductText>Talharim com brócolis e bacon</ProductText>
-        <ComplementText>500gr/100 cal</ComplementText>
-        <ProductText>R$ 35,00 </ProductText>
+        <ProductText>{name}</ProductText>
+        {/* <ComplementText>500gr/100 cal</ComplementText> */}
+        <ProductText>
+          {Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+          }).format(sales_price)}
+        </ProductText>
 
-        <Form ref={formRef} onSubmit={() => console.log(value)}>
+        <Form ref={formRef} onSubmit={() => console.tron.log(value)}>
           <QuantityView>
             <AddRemoveButton
               onPress={() => {
@@ -132,8 +134,13 @@ const ProductDetails: React.FC = (props: any) => {
             handleAddProduct();
           }}
         >
-          <ButtonText>Adicionar ao pedido</ButtonText>
-          <ButtonText>R$ 35,00</ButtonText>
+          <ButtonText>Confirmar</ButtonText>
+          <ButtonText>
+            {Intl.NumberFormat('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
+            }).format(sales_price)}
+          </ButtonText>
         </ButtonSelection>
       </ButtonContainer>
     </Container>

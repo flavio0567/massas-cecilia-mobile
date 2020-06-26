@@ -2,8 +2,8 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import Icon from 'react-native-vector-icons/Feather';
+import { View } from 'react-native';
 import productIMG from '../../assets/nhoque.png';
-
 import {
   Container,
   SectionSeparator,
@@ -23,24 +23,29 @@ interface Product {
 
 type Products = Product[];
 
-const ProductRender: React.FC = ({ data }: any) => {
+const ProductRender: React.FC<any> = ({ data }) => {
   const { navigate } = useNavigation();
+
   return (
     <Container>
-      <ProductImg source={productIMG} />
-      <ProductText>{data.name}</ProductText>
-      <ProductText>{data.sales_price}</ProductText>
-      <NavigationButton
-        onPress={() => {
-          navigate('Products', { sub_category: 8 });
-        }}
-      >
-        <Icon name="chevron-right" size={22} color="#666" />
-      </NavigationButton>
-
       <SectionSeparator>
-        <LineSeparator />
+        <ProductImg source={productIMG} />
+        <View>
+          <ProductText>{data.name}</ProductText>
+        </View>
+
+        <NavigationButton
+          onPress={() => {
+            navigate('Products', {
+              product_family: data.product_family,
+              category: data.category,
+            });
+          }}
+        >
+          <Icon name="chevron-right" size={22} color="#666" />
+        </NavigationButton>
       </SectionSeparator>
+      <LineSeparator />
     </Container>
   );
 };

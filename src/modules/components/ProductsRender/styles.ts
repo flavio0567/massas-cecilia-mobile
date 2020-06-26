@@ -1,40 +1,40 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-  /* padding-top: 80px; */
+  flex-direction: column;
+`;
+
+export const ProductImg = styled.Image`
+  width: 25%;
+  height: 100px;
+  border-radius: 5px;
+  margin: 10px;
 `;
 
 export const SectionSeparator = styled.View`
-  flex-direction: row;
+  flex-flow: row wrap;
+  justify-content: space-between;
   align-items: center;
 `;
 
 export const LineSeparator = styled.View`
-  height: 2px;
+  height: 1px;
   width: 390px;
   margin: 0 10px 10px 10px;
-  border: 1px;
+  border: 0.5px;
   border-color: #999;
 `;
 
 export const ProductText = styled.Text`
+  flex-flow: row wrap;
+  width: 230px;
   color: #666;
-  font-size: 16px;
-  margin-right: 140px;
+  margin: 0 0 0 10px;
   font-family: 'RobotoSlab-Medium';
 `;
 
+export const ProductValue = styled.Text``;
+
 export const NavigationButton = styled.TouchableOpacity`
-  flex-direction: row;
-  align-items: center;
-
-  top: 10px;
-  margin-right: 10px;
-`;
-
-export const ProductImg = styled.Image`
-  width: 30%;
-  height: 110px;
-  border-radius: 5px;
-  margin: 20px;
+  margin-right: 15px;
 `;

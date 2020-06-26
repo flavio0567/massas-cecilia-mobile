@@ -1,7 +1,9 @@
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/Feather';
 
-export const Container = styled.View``;
+export const Container = styled.View`
+  /* flex-direction: column; */
+`;
 
 export const ChevronIcon = styled(Icon)`
   margin-left: 10px;
@@ -26,18 +28,8 @@ export const CartIcon = styled(Icon)`
   color: #fff;
 `;
 
-export const ProductSection = styled.View`
-  flex-direction: row;
-
-  justify-content: space-between;
-  padding: 10px;
-`;
-
 export const NavigationButton = styled.TouchableOpacity`
-  flex-direction: row;
-
-  top: 25px;
-  margin: 10px;
+  margin-right: 15px;
 `;
 
 export const SelectionButton = styled.TouchableOpacity`
@@ -45,7 +37,8 @@ export const SelectionButton = styled.TouchableOpacity`
 `;
 
 export const SectionSeparator = styled.View`
-  flex-direction: row;
+  flex-flow: row wrap;
+  justify-content: space-between;
   align-items: center;
 `;
 
@@ -58,6 +51,7 @@ export const LineSeparator = styled.View`
 `;
 
 export const ProductText = styled.Text`
+  flex-flow: row wrap;
   margin: 20px 20px 0;
   color: #666;
   font-size: 16px;

@@ -45,8 +45,12 @@ const Menu: React.FC = ({ navigation, route }: any) => {
       ]);
 
       async function loadProducts(): Promise<any> {
-        const response = await api.get('products');
-        // console.log('responde.data ', response.data);
+        const response = await api.get('products', {
+          params: {
+            product_family,
+          },
+        });
+
         setProducts(response.data);
       }
 
@@ -81,7 +85,7 @@ const Menu: React.FC = ({ navigation, route }: any) => {
           >
             <View>
               <Badge
-                status="error"
+                status="warning"
                 value={quantity}
                 containerStyle={{
                   position: 'absolute',

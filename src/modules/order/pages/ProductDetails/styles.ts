@@ -136,3 +136,13 @@ export const QuantityView = styled.View`
   flex-direction: row;
   margin: 30px;
 `;
+
+export const SectionSeparator = styled.View`
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const NavigationButton = styled.TouchableOpacity`
+  margin-right: 15px;
+`;
