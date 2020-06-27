@@ -1,9 +1,11 @@
 import React from 'react';
 
+import { Badge } from 'react-native-elements';
 import { View, StatusBar, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 
+import { connect } from 'react-redux';
 // import bannerImg from '../../../assets/caneloni.png';
 import massasImg from '../../../assets/capelete.png';
 import molhosImg from '../../../assets/enroladinho.png';
@@ -23,7 +25,7 @@ import {
   FamilyProductText,
 } from './styles';
 
-const Order: React.FC = () => {
+const Order: React.FC = ({ cartSize }) => {
   const { navigate } = useNavigation();
 
   return (
@@ -45,9 +47,17 @@ const Order: React.FC = () => {
             barStyle="light-content"
           />
           <StartusBarText>Menu</StartusBarText>
-          <SelectionButton
-            onPress={() => navigate('OrderDetails', { caller: 'Menu' })}
-          >
+          <SelectionButton onPress={() => navigate('Cart', { caller: 'Menu' })}>
+            <Badge
+              status="error"
+              value={cartSize}
+              containerStyle={{
+                position: 'absolute',
+                top: -4,
+                right: 12,
+                opacity: 0.8,
+              }}
+            />
             <CartIcon name="shopping-cart" size={24} />
           </SelectionButton>
         </Header>
@@ -127,4 +137,6 @@ const Order: React.FC = () => {
   );
 };
 
-export default Order;
+export default connect((state) => ({
+  cartSize: state.cart.length,
+}))(Order);

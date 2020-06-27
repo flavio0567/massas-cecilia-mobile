@@ -1,11 +1,8 @@
-import React, { useState, useRef, useCallback } from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useRef } from 'react';
+import { connect, useDispatch } from 'react-redux';
 
-import { View, StatusBar, Platform, ScrollView, TextInput } from 'react-native';
-import { Badge, withBadge } from 'react-native-elements';
-
-import { Form } from '@unform/mobile';
-import { FormHandles } from '@unform/core';
+import { Badge } from 'react-native-elements';
+import { View, StatusBar, Platform, TextInput } from 'react-native';
 
 import {
   Container,
@@ -16,24 +13,23 @@ import {
   ProductText,
   SelectionButton,
   LineSeparator,
-  AddInformation,
+  QuantityView,
+  PlusText,
+  MinusText,
   AddRemoveButton,
+  AddInformation,
   ButtonContainer,
   ButtonSelection,
   ButtonText,
-  MinusText,
-  PlusText,
-  QuantityView,
 } from './styles';
 
-const ProductDetails: React.FC = ({ navigation, route }) => {
-  const { name, sales_price, caller } = route.params;
+const ProductDetails: React.FC = ({ navigation, route, cartSize }) => {
+  const product = route.params;
+  const { name, sales_price, caller } = product;
   const { navigate } = navigation;
+  const dispatch = useDispatch();
+
   const [value, setValue] = useState(1);
-
-  const formRef = useRef<FormHandles>(null);
-
-  const [checked, setChecked] = useState(false);
 
   function handlePlusMinusButton(e: number): void {
     if (value >= 1 && e === 1) {
@@ -43,12 +39,13 @@ const ProductDetails: React.FC = ({ navigation, route }) => {
     }
   }
 
-  const handleAddProduct = () => {};
+  function handleAddProduct(): void {
+    dispatch({
+      type: 'ADD_TO_CART',
+      product,
+    });
+  }
 
-  // dispatch({
-  //   type: 'ADD_TO_CART',
-  //   product,
-  // });
   return (
     <Container>
       <View
@@ -73,20 +70,24 @@ const ProductDetails: React.FC = ({ navigation, route }) => {
           />
           <StartusBarText>Adicionar item ao pedido</StartusBarText>
           <SelectionButton
-            onPress={
-              () => {
-                navigate(caller);
-              }
-              // () => navigate('OrderDetails', { caller: 'ProductDetails' })
-            }
+            onPress={() => navigate('Cart', { caller: 'ProductDetails' })}
           >
+            <Badge
+              status="error"
+              value={cartSize}
+              containerStyle={{
+                position: 'absolute',
+                top: -4,
+                right: 12,
+                opacity: 0.8,
+              }}
+            />
             <CartIcon name="shopping-cart" size={22} />
           </SelectionButton>
         </Header>
       </View>
-      <ScrollView>
+      <View>
         <ProductText>{name}</ProductText>
-        {/* <ComplementText>500gr/100 cal</ComplementText> */}
         <ProductText>
           {Intl.NumberFormat('pt-BR', {
             style: 'currency',
@@ -94,31 +95,29 @@ const ProductDetails: React.FC = ({ navigation, route }) => {
           }).format(sales_price)}
         </ProductText>
 
-        <Form ref={formRef} onSubmit={() => console.tron.log(value)}>
-          <QuantityView>
-            <AddRemoveButton
-              onPress={() => {
-                handlePlusMinusButton(-1);
-              }}
-            >
-              <MinusText>-</MinusText>
-            </AddRemoveButton>
+        <QuantityView>
+          <AddRemoveButton
+            onPress={() => {
+              handlePlusMinusButton(-1);
+            }}
+          >
+            <MinusText>-</MinusText>
+          </AddRemoveButton>
 
-            <TextInput
-              onChangeText={() => setValue(value)}
-              style={{ margin: 11 }}
-            >
-              {value}
-            </TextInput>
-            <AddRemoveButton
-              onPress={() => {
-                handlePlusMinusButton(1);
-              }}
-            >
-              <PlusText>+</PlusText>
-            </AddRemoveButton>
-          </QuantityView>
-        </Form>
+          <TextInput
+            onChangeText={() => setValue(value)}
+            style={{ margin: 11 }}
+          >
+            {value}
+          </TextInput>
+          <AddRemoveButton
+            onPress={() => {
+              handlePlusMinusButton(1);
+            }}
+          >
+            <PlusText>+</PlusText>
+          </AddRemoveButton>
+        </QuantityView>
 
         <LineSeparator />
 
@@ -126,7 +125,7 @@ const ProductDetails: React.FC = ({ navigation, route }) => {
           Informações adicionais sobre o produto, quando necessáriom podem ser
           solicitadas.
         </AddInformation>
-      </ScrollView>
+      </View>
 
       <ButtonContainer>
         <ButtonSelection
@@ -134,7 +133,7 @@ const ProductDetails: React.FC = ({ navigation, route }) => {
             handleAddProduct();
           }}
         >
-          <ButtonText>Confirmar</ButtonText>
+          <ButtonText onPress={() => handleAddProduct()}>Confirmar</ButtonText>
           <ButtonText>
             {Intl.NumberFormat('pt-BR', {
               style: 'currency',
@@ -147,4 +146,6 @@ const ProductDetails: React.FC = ({ navigation, route }) => {
   );
 };
 
-export default connect()(ProductDetails);
+export default connect((state) => ({
+  cartSize: state.cart.length,
+}))(ProductDetails);

@@ -1,8 +1,8 @@
 import { all } from 'redux-saga/effects';
 
-import auth from './modules/auth/sagas';
+import { SagaIterator } from 'redux-saga';
 import cart from './modules/cart/sagas';
 
-export default function* rootSaga(): Promise<any> {
-  return yield all([auth, cart]);
+export default function* rootSaga(): SagaIterator {
+  return yield all([cart]);
 }

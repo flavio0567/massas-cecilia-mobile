@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import { connect } from 'react-redux';
+import { Badge } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Feather';
 import { View, StatusBar, Platform, FlatList } from 'react-native';
 
@@ -20,14 +22,14 @@ import {
 } from './styles';
 
 interface Product {
-  id: string;
+  code: string;
   name: string;
   sales_price: number;
   product_family: number;
   sub_category: number;
 }
 
-const Products: React.FC = ({ navigation, route }: any) => {
+const Products: React.FC = ({ navigation, route, cartSize }: any) => {
   const { product_family, category } = route.params;
 
   const { navigate } = navigation;
@@ -72,15 +74,25 @@ const Products: React.FC = ({ navigation, route }: any) => {
           />
           <StartusBarText>Selecione um produto</StartusBarText>
           <SelectionButton
-            onPress={() => navigate('OrderDetails', { caller: 'Products' })}
+            onPress={() => navigate('Cart', { caller: 'Products' })}
           >
+            <Badge
+              status="error"
+              value={cartSize}
+              containerStyle={{
+                position: 'absolute',
+                top: -4,
+                right: 12,
+                opacity: 0.8,
+              }}
+            />
             <CartIcon name="shopping-cart" size={22} />
           </SelectionButton>
         </Header>
       </View>
       <FlatList
         data={products}
-        keyExtractor={(item: Product) => String(item.id)}
+        keyExtractor={(item: Product) => String(item.code)}
         renderItem={({ item }) => (
           <SectionSeparator>
             <View>
@@ -96,6 +108,7 @@ const Products: React.FC = ({ navigation, route }: any) => {
             <NavigationButton
               onPress={() => {
                 navigate('ProductDetails', {
+                  code: item.code,
                   name: item.name,
                   sales_price: item.sales_price,
                   caller: 'Products',
@@ -112,4 +125,6 @@ const Products: React.FC = ({ navigation, route }: any) => {
   );
 };
 
-export default Products;
+export default connect((state) => ({
+  cartSize: state.cart.length,
+}))(Products);

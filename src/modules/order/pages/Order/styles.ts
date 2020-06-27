@@ -24,6 +24,7 @@ export const ChevronIcon = styled(Icon)`
 export const CartIcon = styled(Icon)`
   margin-right: 20px;
   color: #fff;
+  z-index: -1;
 `;
 
 export const StartusBarText = styled.Text`

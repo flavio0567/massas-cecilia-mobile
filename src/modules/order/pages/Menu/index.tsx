@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+import { connect } from 'react-redux';
+
 import { View, StatusBar, Platform, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Badge } from 'react-native-elements';
@@ -29,12 +31,11 @@ interface Product {
 
 type Products = Product[];
 
-const Menu: React.FC = ({ navigation, route }: any) => {
+const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
   const { product_family } = route.params;
   const { navigate } = navigation;
 
   const [products, setProducts] = useState([]);
-  const [quantity, setQuantity] = useState(4);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -80,13 +81,11 @@ const Menu: React.FC = ({ navigation, route }: any) => {
             barStyle="light-content"
           />
 
-          <SelectionButton
-            onPress={() => navigate('OrderDetails', { caller: 'Menu' })}
-          >
+          <SelectionButton onPress={() => navigate('Cart', { caller: 'Menu' })}>
             <View>
               <Badge
-                status="warning"
-                value={quantity}
+                status="error"
+                value={cartSize}
                 containerStyle={{
                   position: 'absolute',
                   top: -8,
@@ -111,4 +110,6 @@ const Menu: React.FC = ({ navigation, route }: any) => {
     </Container>
   );
 };
-export default Menu;
+export default connect((state) => ({
+  cartSize: state.cart.length,
+}))(Menu);

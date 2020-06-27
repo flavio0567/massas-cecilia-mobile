@@ -3,8 +3,6 @@ import Icon from 'react-native-vector-icons/Feather';
 import { RectButton } from 'react-native-gesture-handler';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 
-import Button from '../../../../shared/components/Button';
-
 export const Container = styled.View`
   flex: 1;
 `;
@@ -106,6 +104,11 @@ export const ButtonText = styled.Text`
   margin-right: 10px;
 `;
 
+export const QuantityView = styled.View`
+  flex-direction: row;
+  margin: 30px;
+`;
+
 export const AddRemoveButton = styled(RectButton)`
   width: 24px;
   height: 24px;
@@ -130,11 +133,6 @@ export const LineSeparator = styled.View`
   /* margin-top: 30px; */
   border: 20px;
   border-color: #999999;
-`;
-
-export const QuantityView = styled.View`
-  flex-direction: row;
-  margin: 30px;
 `;
 
 export const SectionSeparator = styled.View`

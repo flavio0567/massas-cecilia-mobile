@@ -1,9 +1,7 @@
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/Feather';
 
-export const Container = styled.View`
-  /* flex-direction: column; */
-`;
+export const Container = styled.View``;
 
 export const ChevronIcon = styled(Icon)`
   margin-left: 10px;
@@ -26,6 +24,7 @@ export const StartusBarText = styled.Text`
 export const CartIcon = styled(Icon)`
   margin-right: 20px;
   color: #fff;
+  z-index: -1;
 `;
 
 export const NavigationButton = styled.TouchableOpacity`

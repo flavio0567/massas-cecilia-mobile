@@ -1,6 +1,6 @@
 import { Alert } from 'react-native';
 import { takeLatest, call, put, all } from 'redux-saga/effects';
-
+import { SagaIterator } from 'redux-saga';
 import api from '../../../shared/service/api';
 
 import { signInSuccess, signFailure } from './actions';
@@ -10,7 +10,7 @@ interface Credentials {
   password: string;
 }
 
-export function* signIn(credential: Credentials): Promise<any> {
+export function* signIn(credential: Credentials): SagaIterator {
   try {
     const response = yield call(api.get, `users`);
 

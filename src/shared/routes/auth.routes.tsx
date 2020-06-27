@@ -11,7 +11,7 @@ import Menu from '../../modules/order/pages/Menu';
 import Products from '../../modules/order/pages/Products';
 import ProductDetails from '../../modules/order/pages/ProductDetails';
 import Order from '../../modules/order/pages/Order';
-import OrderDetails from '../../modules/order/pages/OrderDetails';
+import Cart from '../../modules/order/pages/Cart';
 import Main from '../../modules/main/pages/Main';
 
 const Auth = createStackNavigator();
@@ -56,7 +56,7 @@ const AuthRoutes: React.FC = () => (
     <Auth.Screen name="DateTime" component={DateTime} />
     <Auth.Screen name="Products" component={Products} />
     <Auth.Screen name="ProductDetails" component={ProductDetails} />
-    <Auth.Screen name="OrderDetails" component={OrderDetails} />
+    <Auth.Screen name="Cart" component={Cart} />
   </Auth.Navigator>
 );
 
