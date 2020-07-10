@@ -1,16 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 import { Badge } from 'react-native-elements';
 import { View, StatusBar, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { ScrollView } from 'react-native-gesture-handler';
-
 import { connect } from 'react-redux';
-// import bannerImg from '../../../assets/caneloni.png';
 import massasImg from '../../../assets/capelete.png';
-import molhosImg from '../../../assets/enroladinho.png';
-import carnesImg from '../../../assets/bife_a_role.png';
-import acompanhamentosImg from '../../../assets/cuscuz.png';
+
+import api from '../../../../shared/service/api';
 
 import {
   Container,
@@ -19,20 +15,42 @@ import {
   ChevronIcon,
   CartIcon,
   StartusBarText,
-  ProductImage,
-  ItemContainer,
-  ProductButton,
+  ProductList,
   FamilyProductText,
+  ProductImage,
+  ProductContainer,
+  ProductMeta,
 } from './styles';
 
-const Order: React.FC = ({ cartSize }) => {
+export interface Product {
+  id: string;
+  name: string;
+  product_family: number;
+}
+
+const Order: React.FC = ({ cartSize }: any) => {
   const { navigate } = useNavigation();
+  // const [numColumns, setNumColumns] = useState();
+  const [familyProducts, setFamilyProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    api.get('products/family').then((response) => {
+      setFamilyProducts(response.data);
+    });
+  }, []);
+
+  const navigateToMenu = useCallback(
+    (product_family: number, name: string) => {
+      navigate('Menu', { product_family, name });
+    },
+    [navigate],
+  );
 
   return (
     <Container>
       <View
         style={{
-          backgroundColor: '#ff9000',
+          backgroundColor: '#e76c22',
           height: Platform.OS === 'ios' ? 80 : StatusBar.currentHeight,
         }}
       >
@@ -41,11 +59,6 @@ const Order: React.FC = ({ cartSize }) => {
             <ChevronIcon name="trash-2" size={22} />
           </SelectionButton>
 
-          <StatusBar
-            translucent
-            backgroundColor="#ff9000"
-            barStyle="light-content"
-          />
           <StartusBarText>Menu</StartusBarText>
           <SelectionButton onPress={() => navigate('Cart', { caller: 'Menu' })}>
             <Badge
@@ -62,77 +75,24 @@ const Order: React.FC = ({ cartSize }) => {
           </SelectionButton>
         </Header>
       </View>
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 20 }}
-      >
-        <ItemContainer>
-          <ProductButton
-            onPress={() => {
-              navigate('Menu', { product_family: 1 });
-            }}
+
+      <ProductList
+        data={familyProducts}
+        numColumns={2}
+        keyExtractor={(familyProduct) => familyProduct.id}
+        renderItem={({ item: familyProduct }) => (
+          <ProductContainer
+            onPress={() =>
+              navigateToMenu(familyProduct.product_family, familyProduct.name)
+            }
           >
             <ProductImage width={42} source={massasImg} />
-            <FamilyProductText>Massas</FamilyProductText>
-          </ProductButton>
-          <ProductButton
-            onPress={() => {
-              navigate('Menu', { product_family: 2 });
-            }}
-          >
-            <ProductImage width={42} source={molhosImg} />
-            <FamilyProductText>Molhos</FamilyProductText>
-          </ProductButton>
-          <ProductButton
-            onPress={() => {
-              navigate('Menu', { product_family: 3 });
-            }}
-          >
-            <ProductImage width={42} source={carnesImg} />
-            <FamilyProductText>Carnes</FamilyProductText>
-          </ProductButton>
-          <ProductButton
-            onPress={() => {
-              navigate('Menu', { product_family: 4 });
-            }}
-          >
-            <ProductImage width={42} source={acompanhamentosImg} />
-            <FamilyProductText>Acompanhamentos</FamilyProductText>
-          </ProductButton>
-          <ProductButton
-            onPress={() => {
-              navigate('Menu', { product_family: 5 });
-            }}
-          >
-            <ProductImage width={42} source={massasImg} />
-            <FamilyProductText>Entradas</FamilyProductText>
-          </ProductButton>
-          <ProductButton
-            onPress={() => {
-              navigate('Menu', { product_family: 6 });
-            }}
-          >
-            <ProductImage width={42} source={molhosImg} />
-            <FamilyProductText>Sobremesas</FamilyProductText>
-          </ProductButton>
-          <ProductButton
-            onPress={() => {
-              navigate('Menu', { product_family: 7 });
-            }}
-          >
-            <ProductImage width={42} source={molhosImg} />
-            <FamilyProductText>Diversos</FamilyProductText>
-          </ProductButton>
-          <ProductButton
-            onPress={() => {
-              navigate('Menu', { product_family: 8 });
-            }}
-          >
-            <ProductImage width={42} source={molhosImg} />
-            <FamilyProductText>Bebidas</FamilyProductText>
-          </ProductButton>
-        </ItemContainer>
-      </ScrollView>
+            <ProductMeta>
+              <FamilyProductText>{familyProduct.name}</FamilyProductText>
+            </ProductMeta>
+          </ProductContainer>
+        )}
+      />
     </Container>
   );
 };

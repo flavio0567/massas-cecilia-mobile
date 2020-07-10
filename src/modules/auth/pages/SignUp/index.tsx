@@ -207,7 +207,7 @@ const SignUp: React.FC = () => {
                   navigate('Porch');
                 }}
               >
-                <Icon name="arrow-left" size={20} color="#ff9000" />
+                <Icon name="arrow-left" size={20} color="#e76c22" />
                 <ReturnButtonText>Retornar ao início</ReturnButtonText>
               </ReturnButton>
             </Form>

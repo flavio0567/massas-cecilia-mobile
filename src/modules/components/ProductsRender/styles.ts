@@ -21,7 +21,8 @@ export const LineSeparator = styled.View`
   height: 1px;
   width: 390px;
   margin: 0 10px 10px 10px;
-  border: 0.5px;
+  border: 0.3px;
+  opacity: 0.2;
   border-color: #999;
 `;
 

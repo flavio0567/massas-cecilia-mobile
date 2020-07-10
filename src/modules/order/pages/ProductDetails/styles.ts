@@ -5,6 +5,7 @@ import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 export const Container = styled.View`
   flex: 1;
+  background: #ffebcc;
 `;
 
 export const ChevronIcon = styled(Icon)`
@@ -88,7 +89,7 @@ export const ButtonContainer = styled.View`
 export const ButtonSelection = styled(RectButton)`
   width: 80%;
   height: 50px;
-  background: #ff9000;
+  background: #e76c22;
   border-radius: 6px;
   margin: 10px;
 
@@ -112,7 +113,7 @@ export const QuantityView = styled.View`
 export const AddRemoveButton = styled(RectButton)`
   width: 24px;
   height: 24px;
-  background: #ff9000;
+  background: #e76c22;
   border-radius: 12px;
   margin-top: 8px;
 

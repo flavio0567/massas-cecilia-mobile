@@ -1,7 +1,10 @@
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/Feather';
 
-export const Container = styled.View``;
+export const Container = styled.View`
+  flex: 1;
+  background: #ffebcc;
+`;
 
 export const ChevronIcon = styled(Icon)`
   margin-left: 10px;
@@ -42,10 +45,11 @@ export const SectionSeparator = styled.View`
 `;
 
 export const LineSeparator = styled.View`
-  height: 2px;
+  height: 1px;
   width: 390px;
   margin: 0 10px 10px 10px;
-  border: 1px;
+  border: 0.3px;
+  opacity: 0.2;
   border-color: #999;
 `;
 

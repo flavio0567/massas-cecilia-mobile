@@ -50,7 +50,7 @@ const ProductDetails: React.FC = ({ navigation, route, cartSize }) => {
     <Container>
       <View
         style={{
-          backgroundColor: '#ff9000',
+          backgroundColor: '#e76c22',
           height: Platform.OS === 'ios' ? 80 : StatusBar.currentHeight,
         }}
       >
@@ -65,7 +65,7 @@ const ProductDetails: React.FC = ({ navigation, route, cartSize }) => {
 
           <StatusBar
             translucent
-            backgroundColor="#ff9000"
+            backgroundColor="#e76c22"
             barStyle="light-content"
           />
           <StartusBarText>Adicionar item ao pedido</StartusBarText>

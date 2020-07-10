@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import { connect } from 'react-redux';
 
-import { View, StatusBar, Platform, FlatList } from 'react-native';
+import { View, StatusBar, Platform } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Badge } from 'react-native-elements';
 import bannerImg from '../../../assets/caneloni.png';
@@ -19,9 +19,10 @@ import {
   SelectionButton,
   ChevronIcon,
   CartIcon,
+  ProductList,
 } from './styles';
 
-interface Product {
+export interface Product {
   id: string;
   name: string;
   sales_price: number;
@@ -30,6 +31,10 @@ interface Product {
 }
 
 type Products = Product[];
+
+interface RootState {
+  cart: Product;
+}
 
 const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
   const { product_family } = route.params;
@@ -44,21 +49,20 @@ const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
         '@TorreNegra:token',
         '@TorreNegra:user',
       ]);
-
-      async function loadProducts(): Promise<any> {
-        const response = await api.get('products', {
-          params: {
-            product_family,
-          },
-        });
-
-        setProducts(response.data);
-      }
-
-      loadProducts();
-
-      setLoading(false);
     }
+
+    api
+      .get('products/category', {
+        params: {
+          product_family,
+        },
+      })
+      .then((response) => {
+        setProducts(response.data);
+      });
+
+    setLoading(false);
+
     loadStorageData();
   }, [product_family]);
 
@@ -66,7 +70,7 @@ const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
     <Container>
       <View
         style={{
-          backgroundColor: '#ff9000',
+          backgroundColor: '#e76c22',
           height: Platform.OS === 'ios' ? 80 : StatusBar.currentHeight,
         }}
       >
@@ -77,7 +81,7 @@ const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
 
           <StatusBar
             translucent
-            backgroundColor="#ff9000"
+            backgroundColor="#e76c22"
             barStyle="light-content"
           />
 
@@ -85,7 +89,7 @@ const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
             <View>
               <Badge
                 status="error"
-                value={cartSize}
+                value={cartSize.length}
                 containerStyle={{
                   position: 'absolute',
                   top: -8,
@@ -102,7 +106,7 @@ const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
         <BannerImage source={bannerImg} />
         <BannerText>Massas</BannerText>
       </BannerView>
-      <FlatList
+      <ProductList
         data={products}
         keyExtractor={(item: Product) => String(item.id)}
         renderItem={({ item }) => <ProductRender data={item} />}
@@ -110,6 +114,6 @@ const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
     </Container>
   );
 };
-export default connect((state) => ({
-  cartSize: state.cart.length,
+export default connect((state: RootState) => ({
+  cartSize: state.cart,
 }))(Menu);

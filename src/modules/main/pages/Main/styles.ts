@@ -36,7 +36,7 @@ export const ButtonContainer = styled.View`
 export const ButtonSelection = styled(RectButton)`
   width: 80%;
   height: 50px;
-  background: #ff9000;
+  background: #e76c22;
   border-radius: 6px;
   margin: 10px;
 
@@ -64,7 +64,7 @@ export const GuestSelection = styled.TouchableOpacity`
 
 export const GuestText = styled.Text`
   font-family: 'RobotoSlab-Medium';
-  color: #ff9000;
+  color: #e76c22;
   font-size: 16px;
 `;
 

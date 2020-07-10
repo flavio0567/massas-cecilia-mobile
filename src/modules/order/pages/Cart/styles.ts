@@ -3,7 +3,10 @@ import Icon from 'react-native-vector-icons/Feather';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 
-export const Container = styled.View``;
+export const Container = styled.View`
+  flex: 1;
+  background: #ffebcc;
+`;
 
 export const ChevronIcon = styled(Icon)`
   margin-left: 10px;
@@ -46,10 +49,11 @@ export const LineSeparator = styled.View`
 
 export const ProductText = styled.Text`
   flex-flow: row wrap;
-  margin: 10px 10px 0;
-  color: #ff9000;
+  margin: 2px 10px 0;
+  color: #e76c22;
   font-size: 14px;
   font-family: 'RobotoSlab-Regular';
+  padding: 10px;
 `;
 
 export const QuantityView = styled.View`
@@ -59,7 +63,7 @@ export const QuantityView = styled.View`
 export const AddRemoveButton = styled(RectButton)`
   width: 20px;
   height: 20px;
-  background: #ff9000;
+  background: #e76c22;
   border-radius: 10px;
   margin-top: 12px;
 
@@ -90,7 +94,7 @@ export const ProductItem = styled.View`
 export const Product = styled.Text`
   width: 220px;
   flex-flow: row wrap;
-  margin: 10px 10px 0;
+  margin: 10px 22px 0;
   font-size: 12px;
   font-family: 'RobotoSlab-Regular';
 `;
@@ -105,7 +109,7 @@ export const ButtonContainer = styled.View`
 export const ButtonSelection = styled(RectButton)`
   width: 80%;
   height: 50px;
-  background: #ff9000;
+  background: #e76c22;
   border-radius: 6px;
   margin: 10px;
 
@@ -123,7 +127,7 @@ export const ButtonText = styled.Text`
 
 export const DeleteIcon = styled(Icon)`
   margin-left: 10px;
-  color: #ff9000;
+  color: #e76c22;
 `;
 
 export const DeleteButton = styled(RectButton)`

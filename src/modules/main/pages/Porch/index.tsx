@@ -57,7 +57,7 @@ const Porch: React.FC = () => {
             navigate('Main');
           }}
         >
-          <Icon name="log-in" size={20} color="#ff9000" />
+          <Icon name="log-in" size={20} color="#e76c22" />
           <GuestText>Continuar como visitante</GuestText>
         </GuestSelection>
       </ImageBackground>

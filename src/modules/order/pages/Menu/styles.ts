@@ -1,8 +1,12 @@
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/Feather';
+import { FlatList } from 'react-native-gesture-handler';
+
+import Product from './index';
 
 export const Container = styled.View`
-  /* padding-top: 80px; */
+  flex: 1;
+  background: #ffebcc;
 `;
 
 export const BannerView = styled.View`
@@ -12,7 +16,7 @@ export const BannerView = styled.View`
 export const BannerText = styled.Text`
   font-size: 18px;
   font-family: 'RobotoSlab-Regular';
-  color: #ff9000;
+  color: #e76c22;
 
   margin: -40px 40px 30px;
 `;
@@ -52,24 +56,10 @@ export const CartIcon = styled(Icon)`
   z-index: -1;
 `;
 
-export const SectionSeparator = styled.View`
+export const ProductList = styled(FlatList as new () => FlatList<Product>)`
+  padding: 6px 10px 12px;
+
   flex-direction: row;
-  align-items: center;
-`;
-
-export const LineSeparator = styled.View`
-  height: 2px;
-  width: 390px;
-  margin: 0 10px 10px 10px;
-  border: 1px;
-  border-color: #999;
-`;
-
-export const ProductList = styled.View`
-  flex-direction: row;
-
-  justify-content: space-between;
-  align-items: center;
   padding-right: 10px;
 `;
 
@@ -84,7 +74,7 @@ export const ProductText = styled.Text`
   color: #666;
   font-size: 16px;
   margin-right: 140px;
-  font-family: 'RobotoSlab-Medium';
+  font-family: 'RobotoSlab-Regular';
 `;
 
 export const NavigationButton = styled.TouchableOpacity`

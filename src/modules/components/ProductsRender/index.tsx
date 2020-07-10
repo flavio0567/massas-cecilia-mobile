@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import Icon from 'react-native-vector-icons/Feather';
@@ -21,10 +21,15 @@ interface Product {
   sub_category: number;
 }
 
-type Products = Product[];
-
-const ProductRender: React.FC<any> = ({ data }) => {
+const ProductRender: React.FC = ({ data }: any) => {
   const { navigate } = useNavigation();
+
+  const navigateToProducts = useCallback(
+    (product_family: number, category: number) => {
+      navigate('Products', { product_family, category });
+    },
+    [navigate],
+  );
 
   return (
     <Container>
@@ -36,10 +41,7 @@ const ProductRender: React.FC<any> = ({ data }) => {
 
         <NavigationButton
           onPress={() => {
-            navigate('Products', {
-              product_family: data.product_family,
-              category: data.category,
-            });
+            navigateToProducts(data.product_family, data.category);
           }}
         >
           <Icon name="chevron-right" size={22} color="#666" />

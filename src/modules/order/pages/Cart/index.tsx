@@ -46,7 +46,7 @@ const Cart: React.FC = ({ navigation, route, cart, cartSize }: any) => {
     <Container>
       <View
         style={{
-          backgroundColor: '#ff9000',
+          backgroundColor: '#e76c22',
           height: Platform.OS === 'ios' ? 80 : StatusBar.currentHeight,
         }}
       >
@@ -57,7 +57,7 @@ const Cart: React.FC = ({ navigation, route, cart, cartSize }: any) => {
 
           <StatusBar
             translucent
-            backgroundColor="#ff9000"
+            backgroundColor="#e76c22"
             barStyle="light-content"
           />
           <StartusBarText>Menu</StartusBarText>

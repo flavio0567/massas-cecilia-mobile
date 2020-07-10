@@ -1,8 +1,12 @@
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/Feather';
+import { FlatList } from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
+import { Product } from '.';
 
 export const Container = styled.View`
-  /* padding-top: 20px; */
+  flex: 1;
+  background: #ffebcc;
 `;
 
 export const Header = styled.SafeAreaView`
@@ -33,26 +37,35 @@ export const StartusBarText = styled.Text`
   color: #fff;
 `;
 
+export const ProductList = styled(FlatList as new () => FlatList<Product>)`
+  padding: 24px 16px;
+`;
+
+export const ProductContainer = styled(RectButton)`
+  width: 180px;
+  height: 180px;
+  background: #fff;
+
+  margin: 6px;
+  border-radius: 10px;
+`;
+
 export const ProductImage = styled.Image`
-  width: 170px;
-  height: 150px;
-  border-radius: 5px;
-`;
-
-export const ItemContainer = styled.View`
-  flex-flow: row wrap;
-  justify-content: space-around;
-
-  padding: 0;
-  margin: 0;
-`;
-
-export const ProductButton = styled.TouchableOpacity`
-  padding: 5px;
+  width: 180px;
+  height: 130px;
 `;
 
 export const FamilyProductText = styled.Text`
   color: #666;
   font-size: 16px;
+  width: 150px;
+  color: #e76c22;
   font-family: 'RobotoSlab-Regular';
+  margin-left: auto;
+  /* margin-right: auto; */
+`;
+
+export const ProductMeta = styled.View`
+  /* margin-left: auto;
+  margin-right: auto; */
 `;

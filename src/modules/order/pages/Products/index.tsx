@@ -34,31 +34,21 @@ const Products: React.FC = ({ navigation, route, cartSize }: any) => {
 
   const { navigate } = navigation;
 
-  const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    async function loadProducts(): Promise<any> {
-      const response = await api.get('products/category', {
-        params: {
-          product_family,
-          category,
-        },
+    api
+      .get('products/sub-category', { params: { product_family, category } })
+      .then((response) => {
+        setProducts(response.data);
       });
-
-      setProducts(response.data);
-    }
-
-    loadProducts();
-
-    setLoading(false);
-  }, [product_family]);
+  }, []);
 
   return (
     <Container>
       <View
         style={{
-          backgroundColor: '#ff9000',
+          backgroundColor: '#e76c22',
           height: Platform.OS === 'ios' ? 80 : StatusBar.currentHeight,
         }}
       >
@@ -69,7 +59,7 @@ const Products: React.FC = ({ navigation, route, cartSize }: any) => {
 
           <StatusBar
             translucent
-            backgroundColor="#ff9000"
+            backgroundColor="#e76c22"
             barStyle="light-content"
           />
           <StartusBarText>Selecione um produto</StartusBarText>
