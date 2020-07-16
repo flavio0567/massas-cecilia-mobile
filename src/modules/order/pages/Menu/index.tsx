@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { View, StatusBar, Platform } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Badge } from 'react-native-elements';
+
 import bannerImg from '../../../assets/caneloni.png';
 import ProductRender from '../../../components/ProductsRender';
 
@@ -41,9 +42,11 @@ const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
   const { navigate } = navigation;
 
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
+
     async function loadStorageData(): Promise<void> {
       const [token, user] = await AsyncStorage.multiGet([
         '@TorreNegra:token',
@@ -58,12 +61,13 @@ const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
         },
       })
       .then((response) => {
-        setProducts(response.data);
+        const { product } = response.data;
+        setProducts(product);
       });
 
-    setLoading(false);
-
     loadStorageData();
+
+    setLoading(false);
   }, [product_family]);
 
   return (

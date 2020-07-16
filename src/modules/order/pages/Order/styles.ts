@@ -6,7 +6,7 @@ import { Product } from '.';
 
 export const Container = styled.View`
   flex: 1;
-  background: #ffebcc;
+  background: #fff5e6;
 `;
 
 export const Header = styled.SafeAreaView`
@@ -47,7 +47,8 @@ export const ProductContainer = styled(RectButton)`
   background: #fff;
 
   margin: 6px;
-  border-radius: 10px;
+  border-radius: 6px;
+  border: 0.5px solid #ffe0b3;
 `;
 
 export const ProductImage = styled.Image`
@@ -62,10 +63,4 @@ export const FamilyProductText = styled.Text`
   color: #e76c22;
   font-family: 'RobotoSlab-Regular';
   margin-left: auto;
-  /* margin-right: auto; */
-`;
-
-export const ProductMeta = styled.View`
-  /* margin-left: auto;
-  margin-right: auto; */
 `;

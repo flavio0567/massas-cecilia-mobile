@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Badge } from 'react-native-elements';
 
 import { connect } from 'react-redux';
-import { Badge } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Feather';
-import { View, StatusBar, Platform, FlatList } from 'react-native';
 
+import Icon from 'react-native-vector-icons/Feather';
+import { View, StatusBar, Platform, FlatList, TextInput } from 'react-native';
+
+// import { TextInput } from '@shared/components/Input/styles';
 import api from '../../../../shared/service/api';
 
 import {
@@ -19,6 +21,9 @@ import {
   ProductText,
   ComplementText,
   NavigationButton,
+  SearchBox,
+  InputSearch,
+  IconSearch,
 } from './styles';
 
 interface Product {
@@ -31,18 +36,32 @@ interface Product {
 
 const Products: React.FC = ({ navigation, route, cartSize }: any) => {
   const { product_family, category } = route.params;
-
   const { navigate } = navigation;
 
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
+
+  const [selected, setSelected] = useState<Product[]>();
 
   useEffect(() => {
     api
       .get('products/sub-category', { params: { product_family, category } })
       .then((response) => {
         setProducts(response.data);
+        setSelected(response.data);
       });
-  }, []);
+  }, [category, product_family]);
+
+  const handleSearch = useCallback(
+    (text: string) => {
+      const query = text.toLowerCase();
+      const newSelection = products?.filter(
+        (prod) => prod.name.toLowerCase().indexOf(query) > -1,
+      );
+
+      setSelected(newSelection);
+    },
+    [products],
+  );
 
   return (
     <Container>
@@ -80,8 +99,18 @@ const Products: React.FC = ({ navigation, route, cartSize }: any) => {
           </SelectionButton>
         </Header>
       </View>
+
+      <SearchBox>
+        <InputSearch
+          autoCorrect={false}
+          textContentType="none"
+          onChangeText={(text) => handleSearch(text)}
+        />
+        <IconSearch name="search" />
+      </SearchBox>
+
       <FlatList
-        data={products}
+        data={selected}
         keyExtractor={(item: Product) => String(item.code)}
         renderItem={({ item }) => (
           <SectionSeparator>

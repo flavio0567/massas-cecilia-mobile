@@ -3,7 +3,7 @@ import Icon from 'react-native-vector-icons/Feather';
 
 export const Container = styled.View`
   flex: 1;
-  background: #ffebcc;
+  background: #fff5e6;
 `;
 
 export const BannerView = styled.View`

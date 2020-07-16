@@ -19,7 +19,6 @@ import {
   FamilyProductText,
   ProductImage,
   ProductContainer,
-  ProductMeta,
 } from './styles';
 
 export interface Product {
@@ -30,12 +29,13 @@ export interface Product {
 
 const Order: React.FC = ({ cartSize }: any) => {
   const { navigate } = useNavigation();
-  // const [numColumns, setNumColumns] = useState();
+
   const [familyProducts, setFamilyProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     api.get('products/family').then((response) => {
-      setFamilyProducts(response.data);
+      const { product } = response.data;
+      setFamilyProducts(product);
     });
   }, []);
 
@@ -79,7 +79,7 @@ const Order: React.FC = ({ cartSize }: any) => {
       <ProductList
         data={familyProducts}
         numColumns={2}
-        keyExtractor={(familyProduct) => familyProduct.id}
+        keyExtractor={(item) => `key${item.id}`}
         renderItem={({ item: familyProduct }) => (
           <ProductContainer
             onPress={() =>
@@ -87,9 +87,7 @@ const Order: React.FC = ({ cartSize }: any) => {
             }
           >
             <ProductImage width={42} source={massasImg} />
-            <ProductMeta>
-              <FamilyProductText>{familyProduct.name}</FamilyProductText>
-            </ProductMeta>
+            <FamilyProductText>{familyProduct.name}</FamilyProductText>
           </ProductContainer>
         )}
       />

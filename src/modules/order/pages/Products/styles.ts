@@ -1,9 +1,10 @@
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/Feather';
+import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
-  background: #ffebcc;
+  background: #fff5e6;
 `;
 
 export const ChevronIcon = styled(Icon)`
@@ -57,13 +58,38 @@ export const ProductText = styled.Text`
   flex-flow: row wrap;
   margin: 20px 20px 0;
   color: #666;
-  font-size: 16px;
+  max-width: 300px;
+  font-size: 18px;
   font-family: 'RobotoSlab-Regular';
 `;
 
 export const ComplementText = styled.Text`
   margin: 10px 20px 10px;
   color: #666;
-  font-size: 14px;
+  font-size: 13px;
   font-family: 'RobotoSlab-Regular';
+`;
+
+export const SearchBox = styled.View`
+  background: #fff;
+  padding-left: 10px;
+  /* align-content: center; */
+`;
+
+export const InputSearch = styled.TextInput`
+  padding: 10px 28px 0px;
+  font-size: 20px;
+  line-height: 30px;
+  font-family: 'RobotoSlab-Regular';
+  width: 500px;
+  max-height: 64px;
+`;
+
+export const IconSearch = styled(Icon).attrs({
+  size: 18,
+  color: '#ff9000',
+})`
+  position: absolute;
+  top: 10px;
+  padding: 10px;
 `;
