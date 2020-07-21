@@ -31,7 +31,8 @@ export const ProductText = styled.Text`
   width: 230px;
   color: #666;
   margin: 0 0 0 10px;
-  font-family: 'RobotoSlab-Medium';
+  font-size: 18px;
+  font-family: 'RobotoSlab-Regular';
 `;
 
 export const ProductValue = styled.Text``;

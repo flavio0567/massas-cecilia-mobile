@@ -3,7 +3,8 @@ import { useNavigation } from '@react-navigation/native';
 
 import Icon from 'react-native-vector-icons/Feather';
 import { View } from 'react-native';
-import productIMG from '../../assets/nhoque.png';
+import logoImg from '../../assets/logo_massas.png';
+
 import {
   Container,
   SectionSeparator,
@@ -19,6 +20,7 @@ interface Product {
   sales_price: number;
   product_family: number;
   sub_category: number;
+  avatar_url: HTMLImageElement;
 }
 
 const ProductRender: React.FC = ({ data }: any) => {
@@ -34,7 +36,12 @@ const ProductRender: React.FC = ({ data }: any) => {
   return (
     <Container>
       <SectionSeparator>
-        <ProductImg source={productIMG} />
+        {data.avatar_url ? (
+          <ProductImg source={{ uri: data.avatar_url }} />
+        ) : (
+          <ProductImg source={logoImg} />
+        )}
+
         <View>
           <ProductText>{data.name}</ProductText>
         </View>

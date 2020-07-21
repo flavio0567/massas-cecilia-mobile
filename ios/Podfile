@@ -81,7 +81,7 @@ target 'massasdacecilia' do
 
   # pod 'react-native-bem-check-box', :path => '../node_modules/react-native-bem-check-box'
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
 
   target 'massasdaceciliaTests' do
     inherit! :complete

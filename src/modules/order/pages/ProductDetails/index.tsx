@@ -1,9 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 
 import { Badge } from 'react-native-elements';
 import { View, StatusBar, Platform, TextInput } from 'react-native';
 
+import api from '../../../../shared/service/api';
 import {
   Container,
   Header,
@@ -23,11 +24,29 @@ import {
   ButtonText,
 } from './styles';
 
-const ProductDetails: React.FC = ({ navigation, route, cartSize }) => {
+const ProductDetails: React.FC = ({ navigation, route, cartSize }: any) => {
   const product = route.params;
-  const { name, sales_price, caller } = product;
+  const { name, sales_price, caller, product_family, category } = product;
   const { navigate } = navigation;
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.tron.log(
+      'product details:',
+      name,
+      sales_price,
+      caller,
+      product_family,
+      category,
+    );
+    if (name === undefined) {
+      api
+        .get('products/category', { params: { product_family, category } })
+        .then((response) => {
+          console.tron.log('response.data:', response.data);
+        });
+    }
+  }, [caller, name, category, product_family, sales_price]);
 
   const [value, setValue] = useState(1);
 
@@ -55,14 +74,23 @@ const ProductDetails: React.FC = ({ navigation, route, cartSize }) => {
         }}
       >
         <Header>
-          <SelectionButton
-            onPress={() => {
-              navigate(caller);
-            }}
-          >
-            <ChevronIcon name="chevron-left" size={22} />
-          </SelectionButton>
-
+          {name ? (
+            <SelectionButton
+              onPress={() => {
+                navigate(caller);
+              }}
+            >
+              <ChevronIcon name="chevron-left" size={22} />
+            </SelectionButton>
+          ) : (
+            <SelectionButton
+              onPress={() => {
+                navigate('Menu');
+              }}
+            >
+              <ChevronIcon name="chevron-left" size={22} />
+            </SelectionButton>
+          )}
           <StatusBar
             translucent
             backgroundColor="#e76c22"

@@ -38,7 +38,7 @@ interface RootState {
 }
 
 const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
-  const { product_family } = route.params;
+  const { product_family, name } = route.params;
   const { navigate } = navigation;
 
   const [products, setProducts] = useState([]);
@@ -62,6 +62,7 @@ const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
       })
       .then((response) => {
         const { product } = response.data;
+        console.tron.log('Menu:====>', product);
         setProducts(product);
       });
 
@@ -108,7 +109,7 @@ const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
       </View>
       <BannerView>
         <BannerImage source={bannerImg} />
-        <BannerText>Massas</BannerText>
+        <BannerText>{name}</BannerText>
       </BannerView>
       <ProductList
         data={products}

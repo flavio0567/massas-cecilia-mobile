@@ -90,6 +90,6 @@ export const IconSearch = styled(Icon).attrs({
   color: '#ff9000',
 })`
   position: absolute;
-  top: 10px;
+  top: 4px;
   padding: 10px;
 `;

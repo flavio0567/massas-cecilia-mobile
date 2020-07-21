@@ -4,7 +4,6 @@ import { Badge } from 'react-native-elements';
 import { View, StatusBar, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { connect } from 'react-redux';
-import massasImg from '../../../assets/capelete.png';
 
 import api from '../../../../shared/service/api';
 
@@ -25,6 +24,7 @@ export interface Product {
   id: string;
   name: string;
   product_family: number;
+  avatar_url: HTMLImageElement;
 }
 
 const Order: React.FC = ({ cartSize }: any) => {
@@ -35,6 +35,7 @@ const Order: React.FC = ({ cartSize }: any) => {
   useEffect(() => {
     api.get('products/family').then((response) => {
       const { product } = response.data;
+
       setFamilyProducts(product);
     });
   }, []);
@@ -86,7 +87,10 @@ const Order: React.FC = ({ cartSize }: any) => {
               navigateToMenu(familyProduct.product_family, familyProduct.name)
             }
           >
-            <ProductImage width={42} source={massasImg} />
+            <ProductImage
+              width={42}
+              source={{ uri: familyProduct.avatar_url }}
+            />
             <FamilyProductText>{familyProduct.name}</FamilyProductText>
           </ProductContainer>
         )}

@@ -4,9 +4,8 @@ import { Badge } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import Icon from 'react-native-vector-icons/Feather';
-import { View, StatusBar, Platform, FlatList, TextInput } from 'react-native';
+import { View, StatusBar, Platform, FlatList } from 'react-native';
 
-// import { TextInput } from '@shared/components/Input/styles';
 import api from '../../../../shared/service/api';
 
 import {
@@ -29,6 +28,7 @@ import {
 interface Product {
   code: string;
   name: string;
+  avatar_url: HTMLImageElement;
   sales_price: number;
   product_family: number;
   sub_category: number;
@@ -46,10 +46,19 @@ const Products: React.FC = ({ navigation, route, cartSize }: any) => {
     api
       .get('products/sub-category', { params: { product_family, category } })
       .then((response) => {
+        console.tron.log('teste:', response.data);
+        if (Object.keys(response.data).length === 0) {
+          navigate('ProductDetails', {
+            product_family,
+            category,
+            // avatar_url,
+            caller: 'Products',
+          });
+        }
         setProducts(response.data);
         setSelected(response.data);
       });
-  }, [category, product_family]);
+  }, [category, product_family, navigate]);
 
   const handleSearch = useCallback(
     (text: string) => {
