@@ -1,17 +1,18 @@
 import styled from 'styled-components/native';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
+import { Platform } from 'react-native';
 
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
 export const Container = styled.View`
   flex: 1;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const ButtonContainer = styled.View`
   flex-direction: row;
-  top: 740px;
+  justify-content: center;
+  align-self: flex-end;
+  top: ${Platform.OS === 'ios' ? 720 : 520}px;
 `;
 
 export const ButtonSelection = styled.TouchableOpacity`
@@ -38,7 +39,7 @@ export const GuestSelection = styled.TouchableOpacity`
   left: 0;
   bottom: 0;
   right: 0;
-  padding: 10px 0 ${10 + getBottomSpace()}px;
+  padding: 10px 0 ${20 + getBottomSpace()}px;
 
   justify-content: center;
   flex-direction: row;

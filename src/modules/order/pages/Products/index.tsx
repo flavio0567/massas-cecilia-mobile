@@ -36,7 +36,7 @@ interface Product {
 
 const Products: React.FC = ({ navigation, route, cartSize }: any) => {
   const { product_family, category } = route.params;
-  const { navigate } = navigation;
+  const { navigate, goBack } = navigation;
 
   const [products, setProducts] = useState<Product[]>([]);
 
@@ -81,7 +81,7 @@ const Products: React.FC = ({ navigation, route, cartSize }: any) => {
         }}
       >
         <Header>
-          <SelectionButton onPress={() => navigate('Menu')}>
+          <SelectionButton onPress={() => goBack()}>
             <ChevronIcon name="chevron-left" size={22} />
           </SelectionButton>
 

@@ -52,8 +52,8 @@ const AuthRoutes: React.FC = () => (
       options={{ title: 'Order Detail auth' }}
     />
 
-    <Auth.Screen name="Location" component={Location} />
     <Auth.Screen name="DateTime" component={DateTime} />
+    <Auth.Screen name="Location" component={Location} />
     <Auth.Screen name="Products" component={Products} />
     <Auth.Screen name="ProductDetails" component={ProductDetails} />
     <Auth.Screen name="Cart" component={Cart} />

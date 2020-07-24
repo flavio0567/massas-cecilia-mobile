@@ -48,7 +48,8 @@ const Main: React.FC = () => {
 
         <ButtonSelection
           onPress={() => {
-            navigate('Location');
+            // navigate('Location');
+            navigate('DateTime');
           }}
         >
           <ButtonText>Delivery</ButtonText>

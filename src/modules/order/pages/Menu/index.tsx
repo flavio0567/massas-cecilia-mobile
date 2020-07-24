@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { connect } from 'react-redux';
 
@@ -31,15 +31,17 @@ export interface Product {
   sub_category: number;
 }
 
-type Products = Product[];
-
 interface RootState {
   cart: Product;
 }
 
+interface ProductRenderProps {
+  data: Product[];
+}
+
 const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
   const { product_family, name } = route.params;
-  const { navigate } = navigation;
+  const { navigate, goBack } = navigation;
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -62,7 +64,6 @@ const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
       })
       .then((response) => {
         const { product } = response.data;
-        console.tron.log('Menu:====>', product);
         setProducts(product);
       });
 
@@ -80,7 +81,7 @@ const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
         }}
       >
         <Header>
-          <SelectionButton onPress={() => navigate('Order')}>
+          <SelectionButton onPress={() => goBack()}>
             <ChevronIcon name="chevron-left" size={22} />
           </SelectionButton>
 

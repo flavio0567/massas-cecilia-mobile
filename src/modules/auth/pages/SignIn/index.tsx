@@ -71,7 +71,7 @@ const SignIn: React.FC = () => {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
 
-          console.log(errors);
+          console.tron.log(errors);
 
           formRef.current?.setErrors(errors);
 
@@ -103,12 +103,12 @@ const SignIn: React.FC = () => {
               <Title>Faça seu login</Title>
             </View>
 
-            <Image source={fbImg} />
+            {/* <Image source={fbImg} />
             <SectionSeparator>
               <LineSeparator />
               <TextSeparator>ou</TextSeparator>
               <LineSeparator />
-            </SectionSeparator>
+            </SectionSeparator> */}
 
             <Form ref={formRef} onSubmit={handleSignIn}>
               <Input
@@ -146,7 +146,7 @@ const SignIn: React.FC = () => {
 
             <ForgotPasswordButton
               onPress={() => {
-                console.log('ForgotPassword');
+                console.tron.log('ForgotPassword');
               }}
             >
               <GuestText>Esqueci minha senha</GuestText>

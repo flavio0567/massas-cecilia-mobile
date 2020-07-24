@@ -23,7 +23,7 @@ const AppRoutes: React.FC = () => (
       cardStyle: { backgroundColor: '#232129' },
     }}
   >
-    <App.Screen name="Main" component={Main} />
+    {/* <App.Screen name="Main" component={Main} /> */}
     <App.Screen
       name="Order"
       component={Order}
@@ -31,8 +31,8 @@ const AppRoutes: React.FC = () => (
     />
     <App.Screen name="Menu" component={Menu} options={{ title: 'Menu app' }} />
 
-    <App.Screen name="Location" component={Location} />
     <App.Screen name="DateTime" component={DateTime} />
+    <App.Screen name="Location" component={Location} />
     <App.Screen name="Products" component={Products} />
     <App.Screen name="ProductDetails" component={ProductDetails} />
     <Tab.Screen name="OrderMenu" component={Order} />

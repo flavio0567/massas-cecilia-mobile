@@ -32,7 +32,7 @@ export const Title = styled.Text`
   font-size: 24px;
   color: #999;
   font-family: 'RobotoSlab-Medium';
-  margin-top: 80px;
+  padding: 20px;
 `;
 
 export const Image = styled.Image`
