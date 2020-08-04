@@ -27,7 +27,7 @@ export const BannerView = styled.View``;
 export const BannerText = styled.Text`
   font-size: 24px;
   font-family: 'RobotoSlab-Regular';
-  color: #e76c22;
+  color: #fd9e63;
 
   margin: -40px 40px 30px;
 `;
@@ -53,7 +53,7 @@ export const Calendar = styled.View``;
 
 export const Title = styled.Text`
   font-family: 'RobotoSlab-Medium';
-  color: #ff9000;
+  color: #fd9e63;
   font-size: 22px;
   margin: 0 26px;
   padding: 26px;
@@ -61,7 +61,7 @@ export const Title = styled.Text`
 
 export const OpenDataPickerButton = styled(RectButton)`
   height: 46px;
-  background: #ff9000;
+  background: #fd9e63;
   border-radius: 10px;
   align-items: center;
   justify-content: center;
@@ -80,7 +80,7 @@ export const ConfirmButton = styled(RectButton)`
   position: absolute;
   top: 460px;
   height: 46px;
-  background: #ff9000;
+  background: #fd9e63;
   border-radius: 10px;
   align-items: center;
   justify-content: center;

@@ -20,7 +20,7 @@ export const ButtonSelection = styled.TouchableOpacity`
   height: 50px;
   background: transparent;
   border: 1px;
-  border-color: #e76c22;
+  border-color: #fd9e63;
   border-radius: 4px;
   margin: 20px;
 
@@ -30,7 +30,7 @@ export const ButtonSelection = styled.TouchableOpacity`
 
 export const ButtonText = styled.Text`
   font-family: 'RobotoSlab-Medium';
-  color: #e76c22;
+  color: #fd9e63;
   font-size: 18px;
 `;
 
@@ -48,7 +48,7 @@ export const GuestSelection = styled.TouchableOpacity`
 
 export const GuestText = styled.Text`
   font-family: 'RobotoSlab-Medium';
-  color: #e76c22;
+  color: #fd9e63;
   font-size: 16px;
 `;
 

@@ -50,7 +50,7 @@ export const LineSeparator = styled.View`
 export const ProductText = styled.Text`
   flex-flow: row wrap;
   margin: 2px 10px 0;
-  color: #e76c22;
+  color: #fd9e63;
   font-size: 14px;
   font-family: 'RobotoSlab-Regular';
   padding: 10px;
@@ -63,7 +63,7 @@ export const QuantityView = styled.View`
 export const AddRemoveButton = styled(RectButton)`
   width: 20px;
   height: 20px;
-  background: #e76c22;
+  background: #fd9e63;
   border-radius: 10px;
   margin-top: 12px;
 
@@ -109,7 +109,7 @@ export const ButtonContainer = styled.View`
 export const ButtonSelection = styled(RectButton)`
   width: 80%;
   height: 50px;
-  background: #e76c22;
+  background: #fd9e63;
   border-radius: 6px;
   margin: 10px;
 
@@ -127,7 +127,7 @@ export const ButtonText = styled.Text`
 
 export const DeleteIcon = styled(Icon)`
   margin-left: 10px;
-  color: #e76c22;
+  color: #fd9e63;
 `;
 
 export const DeleteButton = styled(RectButton)`

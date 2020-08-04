@@ -64,7 +64,7 @@ const DateTime: React.FC = () => {
     <Container>
       <View
         style={{
-          backgroundColor: '#e76c22',
+          backgroundColor: '#FD9E63',
           height: Platform.OS === 'ios' ? 80 : StatusBar.currentHeight,
         }}
       >
@@ -73,7 +73,7 @@ const DateTime: React.FC = () => {
             <ChevronIcon name="chevron-left" size={22} />
           </SelectButton>
 
-          <StatusBar backgroundColor="#e76c22" />
+          <StatusBar backgroundColor="#FD9E63" />
         </Header>
       </View>
       <View>
@@ -94,7 +94,7 @@ const DateTime: React.FC = () => {
                   mode="date"
                   display="default"
                   onChange={handleDateChanged}
-                  textColor="#e76c22"
+                  textColor="#FD9E63"
                   value={selectedDate}
                   minimumDate={new Date()}
                 />
@@ -105,7 +105,7 @@ const DateTime: React.FC = () => {
                   mode="time"
                   display="default"
                   onChange={handleTimeChanged}
-                  textColor="#e76c22"
+                  textColor="#FD9E63"
                   value={selectedTime}
                   minuteInterval={30}
                 />

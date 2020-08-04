@@ -56,7 +56,7 @@ export const ReturnButton = styled.TouchableOpacity`
 export const ReturnButtonText = styled.Text`
   font-size: 16px;
   font-family: 'RobotoSlab-Regular';
-  color: #e76c22;
+  color: #fd9e63;
 `;
 
 export const Agreement = styled.View`

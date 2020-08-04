@@ -14,11 +14,11 @@ const App: React.FC = () => (
     <NavigationContainer>
       <StatusBar
         barStyle="light-content"
-        backgroundColor="#e76c22"
+        backgroundColor="#FD9E63"
         // translucent
       />
       <AppProvider>
-        <View style={{ flex: 1, backgroundColor: '#e76c22' }}>
+        <View style={{ flex: 1, backgroundColor: '#FD9E63' }}>
           <Routes />
         </View>
       </AppProvider>

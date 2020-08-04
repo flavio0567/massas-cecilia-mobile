@@ -54,7 +54,7 @@ ForgotPasswordButton.displayName = 'ForgotPasswordButton';
 export const GuestText = styled.Text`
   font-size: 16px;
   font-family: 'RobotoSlab-Regular';
-  color: #e76c22;
+  color: #fd9e63;
 `;
 
 export const CreateAccountButton = styled.TouchableOpacity`
@@ -62,7 +62,7 @@ export const CreateAccountButton = styled.TouchableOpacity`
   left: 0;
   bottom: 0;
   right: 0;
-  background: #e76c22;
+  background: #fd9e63;
   border-top-width: 1px;
   border-color: #312e38;
   padding: 10px 0 ${10 + getBottomSpace()}px;

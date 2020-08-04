@@ -54,10 +54,10 @@ const Porch: React.FC = () => {
 
         <GuestSelection
           onPress={() => {
-            navigate('Main');
+            navigate('DeliveryStack');
           }}
         >
-          <Icon name="log-in" size={20} color="#e76c22" />
+          <Icon name="log-in" size={20} color="#FD9E63" />
           <GuestText>Continuar como visitante</GuestText>
         </GuestSelection>
       </ImageBackground>

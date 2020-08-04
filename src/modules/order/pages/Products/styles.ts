@@ -86,7 +86,7 @@ export const InputSearch = styled.TextInput`
 
 export const IconSearch = styled(Icon).attrs({
   size: 18,
-  color: '#ff9000',
+  color: '#FD9E63',
 })`
   position: absolute;
   top: 4px;

@@ -89,7 +89,7 @@ export const ButtonContainer = styled.View`
 export const ButtonSelection = styled(RectButton)`
   width: 80%;
   height: 50px;
-  background: #e76c22;
+  background: #fd9e63;
   border-radius: 6px;
   margin: 10px;
 
@@ -113,7 +113,7 @@ export const QuantityView = styled.View`
 export const AddRemoveButton = styled(RectButton)`
   width: 24px;
   height: 24px;
-  background: #e76c22;
+  background: #fd9e63;
   border-radius: 12px;
   margin-top: 8px;
 

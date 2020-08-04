@@ -60,7 +60,7 @@ export const FamilyProductText = styled.Text`
   color: #666;
   font-size: 16px;
   width: 150px;
-  color: #e76c22;
+  color: #fd9e63;
   font-family: 'RobotoSlab-Regular';
   margin-left: auto;
 `;

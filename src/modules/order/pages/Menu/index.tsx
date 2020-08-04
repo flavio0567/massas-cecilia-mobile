@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { connect } from 'react-redux';
 
-import { View, StatusBar, Platform } from 'react-native';
+import { View, Text, StatusBar, Platform } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Badge } from 'react-native-elements';
 
@@ -76,7 +76,7 @@ const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
     <Container>
       <View
         style={{
-          backgroundColor: '#e76c22',
+          backgroundColor: '#FD9E63',
           height: Platform.OS === 'ios' ? 80 : StatusBar.currentHeight,
         }}
       >
@@ -84,10 +84,10 @@ const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
           <SelectionButton onPress={() => goBack()}>
             <ChevronIcon name="chevron-left" size={22} />
           </SelectionButton>
-
+          <Text>Menu</Text>
           <StatusBar
             translucent
-            backgroundColor="#e76c22"
+            backgroundColor="#FD9E63"
             barStyle="light-content"
           />
 

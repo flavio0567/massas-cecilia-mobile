@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { connect } from 'react-redux';
 import { View, StatusBar, Platform, TextInput } from 'react-native';
+import { useAuth } from '../../../../shared/hooks/auth';
 
 import {
   Container,
@@ -26,6 +27,10 @@ import {
 
 const Cart: React.FC = ({ navigation, route, cart, cartSize }: any) => {
   const { navigate } = navigation;
+  const { user, loading } = useAuth();
+
+  console.log('user', user);
+
   const { params } = route;
   const [value, setValue] = useState(1);
   console.tron.log(params);
@@ -46,7 +51,7 @@ const Cart: React.FC = ({ navigation, route, cart, cartSize }: any) => {
     <Container>
       <View
         style={{
-          backgroundColor: '#e76c22',
+          backgroundColor: '#FD9E63',
           height: Platform.OS === 'ios' ? 80 : StatusBar.currentHeight,
         }}
       >
@@ -57,7 +62,7 @@ const Cart: React.FC = ({ navigation, route, cart, cartSize }: any) => {
 
           <StatusBar
             translucent
-            backgroundColor="#e76c22"
+            backgroundColor="#FD9E63"
             barStyle="light-content"
           />
           <StartusBarText>Menu</StartusBarText>

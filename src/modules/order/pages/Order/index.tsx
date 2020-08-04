@@ -51,7 +51,7 @@ const Order: React.FC = ({ cartSize }: any) => {
     <Container>
       <View
         style={{
-          backgroundColor: '#e76c22',
+          backgroundColor: '#FD9E63',
           height: Platform.OS === 'ios' ? 80 : StatusBar.currentHeight,
         }}
       >
@@ -60,7 +60,7 @@ const Order: React.FC = ({ cartSize }: any) => {
             <ChevronIcon name="trash-2" size={22} />
           </SelectionButton>
 
-          <StartusBarText>Menu</StartusBarText>
+          <StartusBarText>Cardápio</StartusBarText>
           <SelectionButton onPress={() => navigate('Cart', { caller: 'Menu' })}>
             <Badge
               status="error"

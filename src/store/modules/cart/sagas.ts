@@ -17,7 +17,7 @@ export function* signIn(credential: Credentials): SagaIterator {
     const { token, user } = response.data[0];
 
     if (!user) {
-      Alert.alert('Erro no lon', 'Usuário não encontrado, tente novamente.');
+      Alert.alert('Erro no logon', 'Usuário não encontrado, tente novamente.');
       return;
     }
 

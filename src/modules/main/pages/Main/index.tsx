@@ -40,7 +40,7 @@ const Main: React.FC = () => {
       <ButtonContainer>
         <ButtonSelection
           onPress={() => {
-            navigate('Order');
+            navigate('MainStack');
           }}
         >
           <ButtonText>Retirar na Loja</ButtonText>
@@ -48,8 +48,7 @@ const Main: React.FC = () => {
 
         <ButtonSelection
           onPress={() => {
-            // navigate('Location');
-            navigate('DateTime');
+            navigate('Location');
           }}
         >
           <ButtonText>Delivery</ButtonText>
