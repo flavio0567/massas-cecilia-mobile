@@ -16,6 +16,7 @@ import Products from '../../modules/order/pages/Products';
 import ProductDetails from '../../modules/order/pages/ProductDetails';
 import Order from '../../modules/order/pages/Order';
 import Cart from '../../modules/order/pages/Cart';
+import Success from '../../modules/order/pages/Success';
 import Main from '../../modules/main/pages/Main';
 
 const Auth = createStackNavigator();
@@ -84,6 +85,13 @@ const AuthRoutes: React.FC = () => {
             headerShown: false,
           }}
         />
+        <Auth.Screen
+          name="Success"
+          component={Success}
+          options={{
+            headerShown: false,
+          }}
+        />
       </Auth.Navigator>
     );
   }, []);
@@ -115,6 +123,27 @@ const AuthRoutes: React.FC = () => {
         <Auth.Screen
           name="DateTime"
           component={DateTime}
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Auth.Navigator>
+    );
+  }, []);
+
+  const CartStackScreen = useCallback(() => {
+    return (
+      <Auth.Navigator>
+        <Auth.Screen
+          name="Cart"
+          component={Cart}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Auth.Screen
+          name="Success"
+          component={Success}
           options={{
             headerShown: false,
           }}
@@ -174,10 +203,9 @@ const AuthRoutes: React.FC = () => {
           ),
         }}
       />
-
       <Tab.Screen
-        name="Cart"
-        component={Cart}
+        name="CartStack"
+        component={CartStackScreen}
         options={{
           tabBarLabel: 'Pedido',
           tabBarIcon: ({ color }) => (

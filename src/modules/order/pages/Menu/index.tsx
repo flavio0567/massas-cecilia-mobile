@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-
 import { connect } from 'react-redux';
 
-import { View, Text, StatusBar, Platform } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import { View, StatusBar, Platform } from 'react-native';
 import { Badge } from 'react-native-elements';
-
 import bannerImg from '../../../assets/caneloni.png';
 import ProductRender from '../../../components/ProductsRender';
 
@@ -48,14 +45,6 @@ const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
 
   useEffect(() => {
     setLoading(true);
-
-    async function loadStorageData(): Promise<void> {
-      const [token, user] = await AsyncStorage.multiGet([
-        '@TorreNegra:token',
-        '@TorreNegra:user',
-      ]);
-    }
-
     api
       .get('products/category', {
         params: {
@@ -66,9 +55,6 @@ const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
         const { product } = response.data;
         setProducts(product);
       });
-
-    loadStorageData();
-
     setLoading(false);
   }, [product_family]);
 
@@ -84,7 +70,7 @@ const Menu: React.FC = ({ navigation, route, cartSize }: any) => {
           <SelectionButton onPress={() => goBack()}>
             <ChevronIcon name="chevron-left" size={22} />
           </SelectionButton>
-          <Text>Menu</Text>
+
           <StatusBar
             translucent
             backgroundColor="#FD9E63"

@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { connect, useDispatch } from 'react-redux';
 
 import { Badge } from 'react-native-elements';
 import { View, StatusBar, Platform, TextInput } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import api from '../../../../shared/service/api';
 import {
@@ -24,32 +25,47 @@ import {
   ButtonText,
 } from './styles';
 
+interface Product {
+  code: number;
+  name: string;
+  sales_price: number;
+  amount: number;
+}
+
 const ProductDetails: React.FC = ({ navigation, route, cartSize }: any) => {
-  const product = route.params;
-  const { name, sales_price, caller, product_family, category } = product;
   const { navigate } = navigation;
   const dispatch = useDispatch();
+  const [userToken, setUserToken] = useState();
+  const [product, setProduct] = useState();
+
+  const { code } = route.params;
 
   useEffect(() => {
-    console.tron.log(
-      'product details:',
-      name,
-      sales_price,
-      caller,
-      product_family,
-      category,
-    );
-    if (name === undefined) {
+    async function getProducName(): Promise<void> {
+      const token = await AsyncStorage.getItem('@TorreNegra:token');
+
+      setUserToken(token);
+      console.log('this token ====>', token);
+    }
+
+    getProducName();
+  }, []);
+
+  useEffect(() => {
+    if (product?.name === undefined) {
+      console.log('token:', userToken);
       api
-        .get('products/category', { params: { product_family, category } })
+        .get(`products/code/${code}`, {
+          headers: { Authorization: `Bearer ${userToken}` },
+        })
         .then((response) => {
-          console.tron.log('response.data:', response.data);
+          console.log('response.data:', response.data.product);
+          setProduct(response.data.product);
         });
     }
-  }, [caller, name, category, product_family, sales_price]);
+  }, [code, userToken, product]);
 
   const [value, setValue] = useState(1);
-
   function handlePlusMinusButton(e: number): void {
     if (value >= 1 && e === 1) {
       setValue(value + e);
@@ -63,6 +79,8 @@ const ProductDetails: React.FC = ({ navigation, route, cartSize }: any) => {
       type: 'ADD_TO_CART',
       product,
     });
+
+    navigate('Order');
   }
 
   return (
@@ -74,10 +92,10 @@ const ProductDetails: React.FC = ({ navigation, route, cartSize }: any) => {
         }}
       >
         <Header>
-          {name ? (
+          {product?.name ? (
             <SelectionButton
               onPress={() => {
-                navigate(caller);
+                navigate(product?.caller);
               }}
             >
               <ChevronIcon name="chevron-left" size={22} />
@@ -115,12 +133,12 @@ const ProductDetails: React.FC = ({ navigation, route, cartSize }: any) => {
         </Header>
       </View>
       <View>
-        <ProductText>{name}</ProductText>
+        <ProductText>{product?.name}</ProductText>
         <ProductText>
           {Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL',
-          }).format(sales_price)}
+          }).format(product?.sales_price)}
         </ProductText>
 
         <QuantityView>
@@ -166,7 +184,7 @@ const ProductDetails: React.FC = ({ navigation, route, cartSize }: any) => {
             {Intl.NumberFormat('pt-BR', {
               style: 'currency',
               currency: 'BRL',
-            }).format(sales_price)}
+            }).format(product?.sales_price)}
           </ButtonText>
         </ButtonSelection>
       </ButtonContainer>

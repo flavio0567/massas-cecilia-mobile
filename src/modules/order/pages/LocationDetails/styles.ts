@@ -51,40 +51,90 @@ export const SelectionButton = styled.TouchableOpacity`
   padding: 5px;
 `;
 
-export const Content = styled.View``;
-
-export const SearchBox = styled.View`
-  background: #fff;
-  padding-left: 10px;
-  /* align-content: center; */
+export const Content = styled.View`
+  margin: 14px;
 `;
 
-export const InputSearch = styled.TextInput`
-  padding: 10px 28px 0px;
-  font-size: 20px;
-  line-height: 30px;
-  font-family: 'RobotoSlab-Regular';
-  width: 500px;
-  max-height: 64px;
-`;
-
-export const IconSearch = styled(Icon).attrs({
-  size: 18,
-  color: '#FD9E63',
-})`
-  position: absolute;
-  top: 4px;
+export const AddressNumberInput = styled.TextInput`
   padding: 10px;
+  margin-top: 10px;
+  font-size: 16px;
+  font-family: 'RobotoSlab-Regular';
+  width: 100px;
+  height: 34px;
+  color: #3f3f3f;
+  border-radius: 5px;
+  background: #e0e0e0;
+`;
+
+export const AddressComplementInput = styled.TextInput`
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 16px;
+  font-family: 'RobotoSlab-Regular';
+  width: 200px;
+  height: 38px;
+  color: #3f3f3f;
+  border-radius: 5px;
+  background: #e0e0e0;
+`;
+
+export const AddressView = styled.View`
+  border-radius: 5px;
+  background: #9999;
+  padding: 8px 10px 20px;
+`;
+
+export const AddressText = styled.Text`
+  padding: 10px;
+  font-size: 18px;
+  line-height: 30px;
+  height: 40px;
+  font-family: 'RobotoSlab-Regular';
+  color: #3f3f3f;
+`;
+
+export const AddressLabelText = styled.Text`
+  padding: 10px;
+  font-size: 16px;
+  line-height: 30px;
+  height: 40px;
+  width: 158px;
+  color: #ff9000;
+  font-family: 'RobotoSlab-Regular';
+  font-style: italic;
+`;
+
+export const IconLocation = styled(Icon).attrs({
+  size: 20,
+  color: '#808080',
+})`
+  padding: 10px 180px 10px;
+`;
+
+export const AddressNumberView = styled.View`
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: baseline;
 `;
 
 export const ConfirmButton = styled(RectButton)`
   position: absolute;
-  top: 460px;
+  top: 180px;
   height: 46px;
   background: #fd9e63;
   border-radius: 10px;
   align-items: center;
   justify-content: center;
-  margin: 100px 24px;
+  margin: 100px 12px;
   width: 365px;
+`;
+
+export const ConfirmText = styled.Text`
+  flex: 1;
+  margin: 10px;
+
+  font-size: 18px;
+  font-family: 'RobotoSlab-Regular';
+  color: #fff;
 `;

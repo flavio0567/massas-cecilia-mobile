@@ -54,32 +54,44 @@ export const SelectionButton = styled.TouchableOpacity`
 export const Content = styled.View``;
 
 export const SearchBox = styled.View`
-  background: #fff;
+  background: #e0e0e0;
   padding-left: 10px;
-  /* align-content: center; */
+  border-radius: 8px;
+  margin: 14px;
 `;
 
 export const InputSearch = styled.TextInput`
-  padding: 10px 28px 0px;
-  font-size: 20px;
-  line-height: 30px;
+  padding: 10px 32px 10px;
+  font-size: 18px;
   font-family: 'RobotoSlab-Regular';
   width: 500px;
   max-height: 64px;
+  color: #3f3f3f;
 `;
 
 export const IconSearch = styled(Icon).attrs({
   size: 18,
-  color: '#FD9E63',
+  color: '#808080',
 })`
   position: absolute;
-  top: 4px;
+  padding: 14px;
+`;
+
+export const CleanSearch = styled.TouchableOpacity``;
+
+export const IconClose = styled(Icon).attrs({
+  size: 18,
+  color: '#808080',
+})`
+  position: absolute;
+  top: -40px;
+  right: 4px;
   padding: 10px;
 `;
 
 export const ConfirmButton = styled(RectButton)`
   position: absolute;
-  top: 460px;
+  top: 60px;
   height: 46px;
   background: #fd9e63;
   border-radius: 10px;
@@ -87,4 +99,13 @@ export const ConfirmButton = styled(RectButton)`
   justify-content: center;
   margin: 100px 24px;
   width: 365px;
+`;
+
+export const ConfirmText = styled.Text`
+  font-size: 18px;
+  flex: 1;
+  margin: 10px 70px 10px;
+
+  font-family: 'RobotoSlab-Regular';
+  color: #fff;
 `;

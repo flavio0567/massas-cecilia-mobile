@@ -47,11 +47,20 @@ export const LineSeparator = styled.View`
   background-color: #dcdcdc;
 `;
 
+export const ProductLabelText = styled.Text`
+  flex-flow: row wrap;
+  margin: 0px 10px 0;
+  color: #3f3f3f;
+  font-size: 16px;
+  font-family: 'RobotoSlab-Regular';
+  padding: 10px;
+`;
+
 export const ProductText = styled.Text`
   flex-flow: row wrap;
   margin: 2px 10px 0;
-  color: #fd9e63;
-  font-size: 14px;
+  color: #3f3f3f;
+  font-size: 18px;
   font-family: 'RobotoSlab-Regular';
   padding: 10px;
 `;
@@ -81,7 +90,7 @@ export const PlusText = styled.Text`
 
 export const ListProducts = styled(ScrollView)`
   width: 100%;
-  height: 550px;
+  height: 490px;
 `;
 
 export const ProductItem = styled.View`
@@ -95,13 +104,12 @@ export const Product = styled.Text`
   width: 220px;
   flex-flow: row wrap;
   margin: 10px 22px 0;
-  font-size: 12px;
+  font-size: 16px;
   font-family: 'RobotoSlab-Regular';
+  color: #3f3f3f;
 `;
 
 export const ButtonContainer = styled.View`
-  padding: 20px 0 ${60 + getBottomSpace()}px;
-
   justify-content: center;
   align-items: center;
 `;

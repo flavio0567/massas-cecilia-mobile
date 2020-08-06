@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { View, StatusBar, Platform, TextInput } from 'react-native';
+
+import Icon from 'react-native-vector-icons/Feather';
 import { useAuth } from '../../../../shared/hooks/auth';
 
 import {
@@ -12,6 +14,7 @@ import {
   ChevronIcon,
   StartusBarText,
   ProductText,
+  ProductLabelText,
   ButtonContainer,
   ButtonSelection,
   DeleteIcon,
@@ -25,15 +28,19 @@ import {
   ProductItem,
 } from './styles';
 
-const Cart: React.FC = ({ navigation, route, cart, cartSize }: any) => {
+interface CartProps {
+  cart: string;
+  cartSize: string;
+  product: string;
+}
+
+const Cart: React.FC = ({ navigation, route, cart }: any) => {
   const { navigate } = navigation;
   const { user, loading } = useAuth();
-
-  console.log('user', user);
+  const dispatch = useDispatch();
 
   const { params } = route;
   const [value, setValue] = useState(1);
-  console.tron.log(params);
 
   function handlePlusMinusButton(e: number): void {
     if (value >= 1 && e === 1) {
@@ -43,8 +50,13 @@ const Cart: React.FC = ({ navigation, route, cart, cartSize }: any) => {
     }
   }
 
-  function handleCloseOrder() {
-    console.tron.log(cart);
+  function handleCloseOrder(): void {
+    dispatch({
+      type: 'ADD_TO_CART',
+      cart,
+    });
+
+    navigate('Order');
   }
 
   return (
@@ -74,17 +86,26 @@ const Cart: React.FC = ({ navigation, route, cart, cartSize }: any) => {
 
       <View>
         <LineSeparator>
-          <ProductText>Detalhes do pedido</ProductText>
+          <ProductLabelText>Detalhes da entrega</ProductLabelText>
         </LineSeparator>
-        <ProductText>Retirar na loja</ProductText>
+
+        {user ? (
+          <ProductText>{user.name}</ProductText>
+        ) : (
+          <ProductText>
+            Retirar na loja - <Icon name="map-pin" /> Avenida Prof. Adib Chaib,
+            2926
+          </ProductText>
+        )}
+
         <ProductText>Hoje às 16:30h</ProductText>
         <LineSeparator>
-          <ProductText>Detalhes do pedido</ProductText>
+          <ProductLabelText>Detalhes do pedido</ProductLabelText>
         </LineSeparator>
         <ListProducts>
-          {cart.map((product) => (
-            <ProductItem>
-              <Product key={product.code}>{product.name}</Product>
+          {cart.map((product: any) => (
+            <ProductItem key={product.code}>
+              <Product>{product.name}</Product>
 
               <QuantityView>
                 <AddRemoveButton
@@ -110,7 +131,7 @@ const Cart: React.FC = ({ navigation, route, cart, cartSize }: any) => {
                 </AddRemoveButton>
               </QuantityView>
 
-              <SelectionButton onPress={() => navigate('Order')}>
+              <SelectionButton onPress={() => navigate('Success')}>
                 <DeleteIcon name="trash-2" size={22} />
               </SelectionButton>
             </ProductItem>
@@ -134,9 +155,10 @@ const Cart: React.FC = ({ navigation, route, cart, cartSize }: any) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any): CartProps => ({
   cart: state.cart,
   cartSize: state.cart.length,
+  product: state.product,
 });
 
 export default connect(mapStateToProps)(Cart);

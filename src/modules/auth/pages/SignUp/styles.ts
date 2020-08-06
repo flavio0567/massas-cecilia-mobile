@@ -14,7 +14,7 @@ export const Title = styled.Text`
   font-size: 22px;
   color: #9a948c;
   font-family: 'RobotoSlab-Medium';
-  margin: 20px 0 70px;
+  margin: 20px 0 40px;
 `;
 
 export const Image = styled.Image`

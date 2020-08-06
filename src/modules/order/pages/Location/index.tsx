@@ -1,15 +1,7 @@
 import React, { useCallback, useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  StatusBar,
-  Platform,
-  Alert,
-} from 'react-native';
+import { View, StatusBar, Platform, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import api from '../../../../shared/service/api';
-import { useAuth } from '../../../../shared/hooks/auth';
 
 import {
   StartusBarText,
@@ -21,7 +13,10 @@ import {
   SearchBox,
   InputSearch,
   IconSearch,
+  CleanSearch,
+  IconClose,
   ConfirmButton,
+  ConfirmText,
 } from './styles';
 
 interface Address {
@@ -34,29 +29,24 @@ interface Address {
 
 const Location: React.FC = () => {
   const { navigate, goBack } = useNavigation();
-  const { user } = useAuth();
 
   const [loading, setLoading] = useState(false);
   const [userCep, setUserCep] = useState<string>();
-  const [userAddress, setUserAddress] = useState<Address>();
-
-  let newCep;
 
   const handleSearch = useCallback(async () => {
     setLoading(true);
     await api
-      .get<Address>('address', { params: { userCep } })
+      .get<Address>('address', {
+        params: { userCep },
+      })
       .then((response) => {
-        const { name } = response.data;
-        console.log('erroEncontrado:', response.data);
-        setUserAddress(response.data);
-        navigate('LocationDetails', userAddress);
+        navigate('LocationDetails', { userAddress: response.data });
       })
       .catch(() => {
         Alert.alert('Cep não encontrado, tente novamente.');
       });
     setLoading(false);
-  }, [userCep, navigate, userAddress]);
+  }, [navigate, userCep]);
 
   return (
     <Container>
@@ -81,33 +71,17 @@ const Location: React.FC = () => {
             <InputSearch
               autoCorrect={false}
               textContentType="none"
-              value={newCep}
-              placeholder="informe o cep"
+              value={userCep}
+              placeholder="Pesquisar cep"
               onChangeText={(e) => setUserCep(e)}
             />
             <IconSearch name="search" />
+            <CleanSearch onPress={() => setUserCep('')}>
+              <IconClose name="x-circle" />
+            </CleanSearch>
           </SearchBox>
-          {/* <View>
-            <Text>{userAddress?.street}</Text>
-            <Text>{userAddress?.city}</Text>
-            <Text>{userAddress?.state}</Text>
-            <Text>{userAddress?.neighborhood}</Text>
-            {userAddress?.street && (
-              <TextInput
-                onChangeText={() => setAddressNumber(addressNumber)}
-                style={{ margin: 11 }}
-                placeholder="número"
-              >
-                {addressNumber}
-              </TextInput>
-            )}
-          </View> */}
-          {/* <ConfirmButton onPress={handleSearch}> */}
-          <ConfirmButton
-            // onPress={() => navigate('LocationDetails', userAddress)}
-            onPress={handleSearch}
-          >
-            <StartusBarText>Buscar</StartusBarText>
+          <ConfirmButton onPress={handleSearch}>
+            <ConfirmText>Buscar</ConfirmText>
           </ConfirmButton>
         </Content>
       </View>

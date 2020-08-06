@@ -35,7 +35,7 @@ interface Product {
 }
 
 const Products: React.FC = ({ navigation, route, cartSize }: any) => {
-  const { product_family, category } = route.params;
+  const { product_family, category, code } = route.params;
   const { navigate, goBack } = navigation;
 
   const [products, setProducts] = useState<Product[]>([]);
@@ -46,19 +46,18 @@ const Products: React.FC = ({ navigation, route, cartSize }: any) => {
     api
       .get('products/sub-category', { params: { product_family, category } })
       .then((response) => {
-        console.tron.log('teste:', response.data);
         if (Object.keys(response.data).length === 0) {
           navigate('ProductDetails', {
             product_family,
             category,
-            // avatar_url,
+            code,
             caller: 'Products',
           });
         }
         setProducts(response.data);
         setSelected(response.data);
       });
-  }, [category, product_family, navigate]);
+  }, [category, product_family, navigate, code]);
 
   const handleSearch = useCallback(
     (text: string) => {

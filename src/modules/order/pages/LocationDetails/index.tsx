@@ -1,6 +1,7 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { View, Text, TextInput, StatusBar, Platform } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { View, StatusBar, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
 import api from '../../../../shared/service/api';
 
 import {
@@ -10,10 +11,15 @@ import {
   Header,
   ChevronIcon,
   Content,
-  SearchBox,
-  InputSearch,
-  IconSearch,
+  AddressNumberInput,
+  AddressComplementInput,
+  AddressView,
+  AddressText,
+  AddressLabelText,
+  IconLocation,
+  AddressNumberView,
   ConfirmButton,
+  ConfirmText,
 } from './styles';
 
 interface Address {
@@ -24,16 +30,26 @@ interface Address {
   street: string;
 }
 
-const LocationDetails: React.FC = (props) => {
+const LocationDetails: React.FC = ({ route }: any) => {
+  const { userAddress } = route.params;
+
   const { navigate, goBack } = useNavigation();
   const [addressNumber, setAddressNumber] = useState();
-  const [address, setAddress] = useState<Address>();
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    // console.log('entrei aqui');
-    // console.log(props.route.params);
-    setAddress(props.route.params);
-  }, [props.route.params]);
+  const handleLocation = useCallback(() => {
+    const address = {
+      userAddress,
+      addressNumber,
+    };
+
+    dispatch({
+      type: 'ADD_TO_CART',
+      address,
+    });
+
+    navigate('MainStack');
+  }, [addressNumber, userAddress, dispatch, navigate]);
 
   return (
     <Container>
@@ -49,27 +65,42 @@ const LocationDetails: React.FC = (props) => {
           </SelectionButton>
           <StatusBar backgroundColor="#FD9E63" barStyle="light-content" />
           <StartusBarText>Endereço de entrega</StartusBarText>
-          <SelectionButton onPress={() => navigate('DateTime')}>
-            <ChevronIcon name="chevron-right" size={22} />
-          </SelectionButton>
         </Header>
         <Content>
-          {address && (
-            <View>
-              <Text>{address.street}</Text>
-              <Text>{address.city}</Text>
-              <Text>{address.state}</Text>
-              <Text>{address.neighborhood}</Text>
-              <Text>{address.cep}</Text>
-              <TextInput
-                onChangeText={() => setAddressNumber(addressNumber)}
-                style={{ margin: 11 }}
-                placeholder="número"
-              >
-                {addressNumber}
-              </TextInput>
-            </View>
+          {userAddress && (
+            <AddressView>
+              <IconLocation name="map-pin" />
+              <AddressText>{userAddress.street}, </AddressText>
+              <AddressText>
+                {userAddress.city} - {userAddress.state} -{' '}
+                {userAddress.neighborhood} - {userAddress.cep}
+              </AddressText>
+
+              <AddressNumberView>
+                <AddressLabelText>Informe o número: </AddressLabelText>
+                <AddressNumberInput
+                  onChangeText={() => setAddressNumber(addressNumber)}
+                  autoCorrect={false}
+                  autoFocus
+                >
+                  {addressNumber}
+                </AddressNumberInput>
+              </AddressNumberView>
+
+              <AddressNumberView>
+                <AddressLabelText>Complemento: </AddressLabelText>
+                <AddressComplementInput
+                  onChangeText={() => setAddressNumber(addressNumber)}
+                  autoCorrect={false}
+                >
+                  {addressNumber}
+                </AddressComplementInput>
+              </AddressNumberView>
+            </AddressView>
           )}
+          <ConfirmButton onPress={handleLocation}>
+            <ConfirmText>Confirme o Endereço</ConfirmText>
+          </ConfirmButton>
         </Content>
       </View>
     </Container>

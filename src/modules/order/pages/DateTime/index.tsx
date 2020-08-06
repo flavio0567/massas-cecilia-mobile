@@ -25,11 +25,6 @@ const DateTime: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState(new Date());
 
-  // useEffect(() => {
-  //   StatusBar.setBarStyle();
-  //   console.tron.log('statusBarHeight: ', StatusBar.setBarStyle);
-  // }, []);
-
   const handleToggleDatePicker = useCallback(() => {
     setShowDatePicker((state) => !state);
   }, []);
@@ -112,7 +107,7 @@ const DateTime: React.FC = () => {
               </View>
             </DateTimeSection>
           )}
-          <ConfirmButton onPress={() => navigate('Location')}>
+          <ConfirmButton onPress={() => navigate('MainStack')}>
             <OpenDataPickerButtonText>Confirmar</OpenDataPickerButtonText>
           </ConfirmButton>
         </Calendar>

@@ -25,15 +25,16 @@ import getValidationErrors from '../../../../shared/utils/getValidationErrors';
 import {
   Container,
   Title,
-  Image,
   ForgotPasswordButton,
   CreateAccountButton,
   CreateAccountButtonText,
   GuestText,
   Icon,
-  SectionSeparator,
-  LineSeparator,
-  TextSeparator,
+  ReturnButton,
+  ReturnButtonText,
+  // SectionSeparator,
+  // LineSeparator,
+  // TextSeparator,
 } from './styles';
 
 interface SignInFormData {
@@ -143,14 +144,23 @@ const SignIn: React.FC = () => {
                 Entrar
               </Button>
             </Form>
-
+            {/*
             <ForgotPasswordButton
               onPress={() => {
                 console.tron.log('ForgotPassword');
               }}
             >
               <GuestText>Esqueci minha senha</GuestText>
-            </ForgotPasswordButton>
+            </ForgotPasswordButton> */}
+            <ReturnButton
+              onPress={() => {
+                navigate('Porch');
+              }}
+            >
+              <Icon name="arrow-left" size={20} color="#FD9E63" />
+              <ReturnButtonText>Retornar ao início</ReturnButtonText>
+            </ReturnButton>
+
             <CreateAccountButton
               onPress={() => {
                 navigate('SignUp');

@@ -21,14 +21,15 @@ interface Product {
   product_family: number;
   sub_category: number;
   avatar_url: HTMLImageElement;
+  code: number;
 }
 
 const ProductRender: React.FC = ({ data }: any) => {
   const { navigate } = useNavigation();
 
   const navigateToProducts = useCallback(
-    (product_family: number, category: number) => {
-      navigate('Products', { product_family, category });
+    (product_family: number, category: number, code: number) => {
+      navigate('Products', { product_family, category, code });
     },
     [navigate],
   );
@@ -48,7 +49,7 @@ const ProductRender: React.FC = ({ data }: any) => {
 
         <NavigationButton
           onPress={() => {
-            navigateToProducts(data.product_family, data.category);
+            navigateToProducts(data.product_family, data.category, data.code);
           }}
         >
           <Icon name="chevron-right" size={22} color="#666" />

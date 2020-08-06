@@ -32,7 +32,7 @@ export const Title = styled.Text`
   font-size: 24px;
   color: #999;
   font-family: 'RobotoSlab-Medium';
-  padding: 20px;
+  padding: 40px;
 `;
 
 export const Image = styled.Image`
@@ -80,4 +80,18 @@ export const CreateAccountButtonText = styled.Text`
 
 export const Icon = styled(FeatherIcon)`
   margin-right: 10px;
+`;
+
+export const ReturnButton = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+
+  top: 20px;
+  margin: 10px;
+`;
+
+export const ReturnButtonText = styled.Text`
+  font-size: 16px;
+  font-family: 'RobotoSlab-Regular';
+  color: #fd9e63;
 `;
