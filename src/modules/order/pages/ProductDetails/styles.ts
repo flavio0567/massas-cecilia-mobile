@@ -32,7 +32,7 @@ export const CartIcon = styled(Icon)`
 `;
 
 export const ProductText = styled.Text`
-  margin: 30px 0 0 30px;
+  margin: 20px 0 20px 20px;
   color: #666;
   font-size: 20px;
   font-family: 'RobotoSlab-Regular';
@@ -105,30 +105,6 @@ export const ButtonText = styled.Text`
   margin-right: 10px;
 `;
 
-export const QuantityView = styled.View`
-  flex-direction: row;
-  margin: 30px;
-`;
-
-export const AddRemoveButton = styled(RectButton)`
-  width: 24px;
-  height: 24px;
-  background: #fd9e63;
-  border-radius: 12px;
-  margin-top: 8px;
-
-  justify-content: center;
-  align-items: center;
-`;
-
-export const MinusText = styled.Text`
-  color: #fff;
-`;
-
-export const PlusText = styled.Text`
-  color: #fff;
-`;
-
 export const LineSeparator = styled.View`
   width: 100%;
   /* margin-top: 30px; */
@@ -145,3 +121,27 @@ export const SectionSeparator = styled.View`
 export const NavigationButton = styled.TouchableOpacity`
   margin-right: 15px;
 `;
+
+// export const QuantityView = styled.View`
+//   flex-direction: row;
+//   margin: 30px;
+// `;
+
+// export const AddRemoveButton = styled(RectButton)`
+//   width: 24px;
+//   height: 24px;
+//   background: #fd9e63;
+//   border-radius: 12px;
+//   margin-top: 8px;
+
+//   justify-content: center;
+//   align-items: center;
+// `;
+
+// export const MinusText = styled.Text`
+//   color: #fff;
+// `;
+
+// export const PlusText = styled.Text`
+//   color: #fff;
+// `;

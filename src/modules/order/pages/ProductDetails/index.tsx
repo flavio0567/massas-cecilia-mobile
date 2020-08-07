@@ -1,11 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { Badge } from 'react-native-elements';
-import { View, StatusBar, Platform, TextInput } from 'react-native';
+import { View, StatusBar, Platform } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
+import * as CartActions from '../../../../store/modules/cart/actions';
+
 import api from '../../../../shared/service/api';
+
 import {
   Container,
   Header,
@@ -15,10 +19,6 @@ import {
   ProductText,
   SelectionButton,
   LineSeparator,
-  QuantityView,
-  PlusText,
-  MinusText,
-  AddRemoveButton,
   AddInformation,
   ButtonContainer,
   ButtonSelection,
@@ -32,11 +32,17 @@ interface Product {
   amount: number;
 }
 
-const ProductDetails: React.FC = ({ navigation, route, cartSize }: any) => {
+const ProductDetails: React.FC = ({
+  navigation,
+  route,
+  cartSize,
+  addToCart,
+}: any) => {
   const { navigate } = navigation;
   const dispatch = useDispatch();
   const [userToken, setUserToken] = useState();
   const [product, setProduct] = useState();
+  const [value, setValue] = useState(1);
 
   const { code } = route.params;
 
@@ -45,7 +51,6 @@ const ProductDetails: React.FC = ({ navigation, route, cartSize }: any) => {
       const token = await AsyncStorage.getItem('@TorreNegra:token');
 
       setUserToken(token);
-      console.log('this token ====>', token);
     }
 
     getProducName();
@@ -53,19 +58,16 @@ const ProductDetails: React.FC = ({ navigation, route, cartSize }: any) => {
 
   useEffect(() => {
     if (product?.name === undefined) {
-      console.log('token:', userToken);
       api
         .get(`products/code/${code}`, {
           headers: { Authorization: `Bearer ${userToken}` },
         })
         .then((response) => {
-          console.log('response.data:', response.data.product);
           setProduct(response.data.product);
         });
     }
   }, [code, userToken, product]);
 
-  const [value, setValue] = useState(1);
   function handlePlusMinusButton(e: number): void {
     if (value >= 1 && e === 1) {
       setValue(value + e);
@@ -75,10 +77,7 @@ const ProductDetails: React.FC = ({ navigation, route, cartSize }: any) => {
   }
 
   function handleAddProduct(): void {
-    dispatch({
-      type: 'ADD_TO_CART',
-      product,
-    });
+    addToCart(product);
 
     navigate('Order');
   }
@@ -141,30 +140,6 @@ const ProductDetails: React.FC = ({ navigation, route, cartSize }: any) => {
           }).format(product?.sales_price)}
         </ProductText>
 
-        <QuantityView>
-          <AddRemoveButton
-            onPress={() => {
-              handlePlusMinusButton(-1);
-            }}
-          >
-            <MinusText>-</MinusText>
-          </AddRemoveButton>
-
-          <TextInput
-            onChangeText={() => setValue(value)}
-            style={{ margin: 11 }}
-          >
-            {value}
-          </TextInput>
-          <AddRemoveButton
-            onPress={() => {
-              handlePlusMinusButton(1);
-            }}
-          >
-            <PlusText>+</PlusText>
-          </AddRemoveButton>
-        </QuantityView>
-
         <LineSeparator />
 
         <AddInformation>
@@ -174,12 +149,8 @@ const ProductDetails: React.FC = ({ navigation, route, cartSize }: any) => {
       </View>
 
       <ButtonContainer>
-        <ButtonSelection
-          onPress={() => {
-            handleAddProduct();
-          }}
-        >
-          <ButtonText onPress={() => handleAddProduct()}>Confirmar</ButtonText>
+        <ButtonSelection onPress={handleAddProduct}>
+          <ButtonText>Confirmar</ButtonText>
           <ButtonText>
             {Intl.NumberFormat('pt-BR', {
               style: 'currency',
@@ -192,6 +163,11 @@ const ProductDetails: React.FC = ({ navigation, route, cartSize }: any) => {
   );
 };
 
-export default connect((state) => ({
+const mapStateToProps = (state) => ({
   cartSize: state.cart.length,
-}))(ProductDetails);
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(CartActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);

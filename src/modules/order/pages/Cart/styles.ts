@@ -1,7 +1,6 @@
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/Feather';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 export const Container = styled.View`
   flex: 1;
@@ -15,7 +14,6 @@ export const ChevronIcon = styled(Icon)`
 
 export const Header = styled.SafeAreaView`
   flex-direction: row;
-
   justify-content: space-between;
   align-items: center;
 `;
@@ -65,17 +63,12 @@ export const ProductText = styled.Text`
   padding: 10px;
 `;
 
-export const QuantityView = styled.View`
-  flex-direction: row;
-`;
-
 export const AddRemoveButton = styled(RectButton)`
   width: 20px;
   height: 20px;
   background: #fd9e63;
   border-radius: 10px;
   margin-top: 12px;
-
   justify-content: center;
   align-items: center;
 `;
@@ -95,18 +88,28 @@ export const ListProducts = styled(ScrollView)`
 
 export const ProductItem = styled.View`
   flex-direction: row;
-
   justify-content: space-between;
   align-items: center;
+
+  background: #fff;
+  /* padding: 10px; */
+  margin: 8px 8px 5px;
+  border-radius: 4px;
 `;
 
-export const Product = styled.Text`
-  width: 220px;
+export const ProductDetailText = styled.Text`
+  width: 200px;
   flex-flow: row wrap;
-  margin: 10px 22px 0;
+
+  padding: 5px 5px;
   font-size: 16px;
   font-family: 'RobotoSlab-Regular';
   color: #3f3f3f;
+`;
+
+export const QuantityView = styled.View`
+  flex-direction: row;
+  width: 80px;
 `;
 
 export const ButtonContainer = styled.View`
@@ -120,7 +123,6 @@ export const ButtonSelection = styled(RectButton)`
   background: #fd9e63;
   border-radius: 6px;
   margin: 10px;
-
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -145,4 +147,34 @@ export const DeleteButton = styled(RectButton)`
 
 export const AddInformation = styled.Text`
   font-size: 12px;
+`;
+
+export const SubTotalView = styled.View`
+  justify-content: center;
+  align-items: center;
+
+  margin-left: 12px;
+`;
+
+export const SubTotalLabel = styled.Text`
+  font-size: 10px;
+  font-family: 'RobotoSlab-Medium';
+  color: #999;
+  padding: 4px;
+`;
+
+export const TotalText = styled.Text`
+  font-size: 12px;
+  margin-right: 10px;
+  padding: 8px 0 5px;
+`;
+
+export const TextProdAmount = styled.Text`
+  width: 48px;
+  font-size: 12px;
+  padding: 16px;
+`;
+
+export const RemoveItemButton = styled.TouchableOpacity`
+  margin-right: 10px;
 `;

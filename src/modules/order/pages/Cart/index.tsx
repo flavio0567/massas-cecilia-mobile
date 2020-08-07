@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import { bindActionCreators } from 'redux';
 
-import { connect, useDispatch } from 'react-redux';
-import { View, StatusBar, Platform, TextInput } from 'react-native';
+import { connect } from 'react-redux';
+import { View, StatusBar, Platform, Text } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Feather';
 import { useAuth } from '../../../../shared/hooks/auth';
+import { formatPrice } from '../../../../util/format';
+
+import * as CartActions from '../../../../store/modules/cart/actions';
 
 import {
   Container,
@@ -24,40 +28,58 @@ import {
   MinusText,
   AddRemoveButton,
   ListProducts,
-  Product,
+  ProductDetailText,
   ProductItem,
+  TotalText,
+  SubTotalLabel,
+  TextProdAmount,
+  SubTotalView,
+  RemoveItemButton,
 } from './styles';
 
 interface CartProps {
   cart: string;
   cartSize: string;
-  product: string;
+  subTotal: string;
+  total: string;
 }
 
-const Cart: React.FC = ({ navigation, route, cart }: any) => {
+interface Product {
+  code: number;
+  name: string;
+  sales_price: number;
+  amount: number;
+}
+
+const Cart: React.FC = ({
+  navigation,
+  route,
+  cart,
+  removeFromCart,
+  updateAmount,
+  total,
+}: any) => {
   const { navigate } = navigation;
   const { user, loading } = useAuth();
-  const dispatch = useDispatch();
 
   const { params } = route;
   const [value, setValue] = useState(1);
 
-  function handlePlusMinusButton(e: number): void {
-    if (value >= 1 && e === 1) {
-      setValue(value + e);
-    } else if (value === 1 && e === 1) {
-      setValue(1);
-    }
+  function increment(product: Product): void {
+    updateAmount(product.id, product.amount + 1);
   }
 
-  function handleCloseOrder(): void {
-    dispatch({
-      type: 'ADD_TO_CART',
-      cart,
-    });
-
-    navigate('Order');
+  function decrement(product: Product): void {
+    updateAmount(product.id, product.amount - 1);
   }
+
+  function handleRemoveFromCart(id: string): void {
+    removeFromCart(id);
+
+    // navigate('Order');
+  }
+
+  function handleCloseOrder() {}
 
   return (
     <Container>
@@ -105,35 +127,37 @@ const Cart: React.FC = ({ navigation, route, cart }: any) => {
         <ListProducts>
           {cart.map((product: any) => (
             <ProductItem key={product.code}>
-              <Product>{product.name}</Product>
+              <ProductDetailText>{product.name}</ProductDetailText>
 
               <QuantityView>
                 <AddRemoveButton
                   onPress={() => {
-                    handlePlusMinusButton(-1);
+                    decrement(product);
                   }}
                 >
                   <MinusText>-</MinusText>
                 </AddRemoveButton>
 
-                <TextInput
-                  onChangeText={() => setValue(value)}
-                  style={{ margin: 11 }}
-                >
-                  {value}
-                </TextInput>
+                <TextProdAmount>{product.amount}</TextProdAmount>
                 <AddRemoveButton
                   onPress={() => {
-                    handlePlusMinusButton(1);
+                    increment(product);
                   }}
                 >
                   <PlusText>+</PlusText>
                 </AddRemoveButton>
               </QuantityView>
 
-              <SelectionButton onPress={() => navigate('Success')}>
-                <DeleteIcon name="trash-2" size={22} />
-              </SelectionButton>
+              <SubTotalView>
+                <SubTotalLabel>Sub-total</SubTotalLabel>
+                <TotalText>{product.subTotal}</TotalText>
+              </SubTotalView>
+
+              <RemoveItemButton
+                onPress={() => handleRemoveFromCart(product.id)}
+              >
+                <DeleteIcon name="trash-2" size={18} />
+              </RemoveItemButton>
             </ProductItem>
           ))}
         </ListProducts>
@@ -145,10 +169,10 @@ const Cart: React.FC = ({ navigation, route, cart }: any) => {
             handleCloseOrder();
           }}
         >
-          <ButtonText onPress={() => handleCloseOrder()}>
+          <ButtonText onPress={() => navigate('Success')}>
             Encerrar o pedido
           </ButtonText>
-          <ButtonText>R$ 459,00</ButtonText>
+          <ButtonText>{total}</ButtonText>
         </ButtonSelection>
       </ButtonContainer>
     </Container>
@@ -156,9 +180,19 @@ const Cart: React.FC = ({ navigation, route, cart }: any) => {
 };
 
 const mapStateToProps = (state: any): CartProps => ({
-  cart: state.cart,
+  cart: state.cart.map((product) => ({
+    ...product,
+    subTotal: formatPrice(product.sales_price * product.amount),
+  })),
+  total: formatPrice(
+    state.cart.reduce((total, product) => {
+      return total + product.sales_price * product.amount;
+    }, 0),
+  ),
   cartSize: state.cart.length,
-  product: state.product,
 });
 
-export default connect(mapStateToProps)(Cart);
+const mapDispatchToProps = (dispatch: any): any =>
+  bindActionCreators(CartActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
