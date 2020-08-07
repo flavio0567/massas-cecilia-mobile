@@ -1,8 +1,11 @@
 import React, { useCallback, useState } from 'react';
 import { View, StatusBar, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import api from '../../../../shared/service/api';
+
+import * as OrderActions from '../../../../store/modules/order/actions';
 
 import {
   StartusBarText,
@@ -22,7 +25,7 @@ import {
   ConfirmText,
 } from './styles';
 
-interface Address {
+export interface Address {
   cep: string | number;
   city: string;
   state: string;
@@ -35,21 +38,25 @@ const LocationDetails: React.FC = ({ route }: any) => {
 
   const { navigate, goBack } = useNavigation();
   const [addressNumber, setAddressNumber] = useState();
+  const [addressComplement, setAddressComplement] = useState();
+
   const dispatch = useDispatch();
 
-  const handleLocation = useCallback(() => {
-    const address = {
-      userAddress,
-      addressNumber,
-    };
+  const handleConfirmLocation = useCallback(() => {
+    let address = userAddress;
+    address += ', ';
+    address += addressNumber;
+    address += ' ';
+    address += addressComplement;
 
+    console.log(userAddress);
     dispatch({
-      type: 'ADD_TO_CART',
+      type: '@order/ADD_ADDRESS',
       address,
     });
 
     navigate('MainStack');
-  }, [addressNumber, userAddress, dispatch, navigate]);
+  }, [addressNumber, userAddress, dispatch, navigate, addressComplement]);
 
   return (
     <Container>
@@ -90,15 +97,15 @@ const LocationDetails: React.FC = ({ route }: any) => {
               <AddressNumberView>
                 <AddressLabelText>Complemento: </AddressLabelText>
                 <AddressComplementInput
-                  onChangeText={() => setAddressNumber(addressNumber)}
+                  onChangeText={() => setAddressComplement(addressComplement)}
                   autoCorrect={false}
                 >
-                  {addressNumber}
+                  {addressComplement}
                 </AddressComplementInput>
               </AddressNumberView>
             </AddressView>
           )}
-          <ConfirmButton onPress={handleLocation}>
+          <ConfirmButton onPress={handleConfirmLocation}>
             <ConfirmText>Confirme o Endereço</ConfirmText>
           </ConfirmButton>
         </Content>
@@ -107,4 +114,7 @@ const LocationDetails: React.FC = ({ route }: any) => {
   );
 };
 
-export default LocationDetails;
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(OrderActions, dispatch);
+
+export default connect(null, mapDispatchToProps)(LocationDetails);

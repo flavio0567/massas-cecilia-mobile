@@ -1,17 +1,4 @@
 import produce from 'immer';
-import { combineReducers } from 'redux';
-
-const INITIAL_STATE = {
-  token: null,
-  signed: false,
-  loading: false,
-};
-
-interface Draft {
-  token: null;
-  signed: boolean;
-  loading: boolean;
-}
 
 type ReducerProps = {
   reducer: string;
