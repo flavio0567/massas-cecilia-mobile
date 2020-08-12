@@ -10,7 +10,7 @@ import SignIn from '../../modules/auth/pages/SignIn';
 
 import Location from '../../modules/order/pages/Location';
 import LocationDetails from '../../modules/order/pages/LocationDetails';
-import DateTime from '../../modules/order/pages/DateTime';
+import DateTimeDelivery from '../../modules/order/pages/DateTimeDelivery';
 import Menu from '../../modules/order/pages/Menu';
 import Products from '../../modules/order/pages/Products';
 import ProductDetails from '../../modules/order/pages/ProductDetails';
@@ -121,8 +121,8 @@ const AuthRoutes: React.FC = () => {
           }}
         />
         <Auth.Screen
-          name="DateTime"
-          component={DateTime}
+          name="DateTimeDelivery"
+          component={DateTimeDelivery}
           options={{
             headerShown: false,
           }}

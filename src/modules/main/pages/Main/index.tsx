@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { ImageBackground, Image } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
+
 import massasImg from '../../../assets/massas_wood_background.png';
 import logoImg from '../../../assets/wheat.png';
+import { useDeliveryDateTime } from '../../../../shared/hooks/deliveryDateTime';
+import {
+  useDeliveryLocalization,
+  DeliveryLocalizationContext,
+} from '../../../../shared/hooks/deliveryLocalization';
 
 import {
   ButtonContainer,
@@ -16,6 +23,27 @@ import {
 
 const Main: React.FC = () => {
   const { navigate } = useNavigation();
+
+  const { setDateTime } = useDeliveryDateTime();
+  const { setLocalization } = useDeliveryLocalization();
+
+  const handlePickup = useCallback(async () => {
+    await AsyncStorage.removeItem('@Massas:deliveryDateTime');
+    await AsyncStorage.removeItem('@Massas:deliveryLocalization');
+
+    const deliveryDateTime = {
+      deliveryDate: new Date(''),
+      deliveryTime: new Date(''),
+    };
+
+    setDateTime(deliveryDateTime);
+
+    const deliveryLocalization = {} as DeliveryLocalizationContext;
+
+    setLocalization(deliveryLocalization);
+
+    navigate('DateTimeDelivery');
+  }, [setLocalization, setDateTime, navigate]);
 
   return (
     <ImageBackground
@@ -38,11 +66,7 @@ const Main: React.FC = () => {
       </TitleView>
 
       <ButtonContainer>
-        <ButtonSelection
-          onPress={() => {
-            navigate('MainStack');
-          }}
-        >
+        <ButtonSelection onPress={handlePickup}>
           <ButtonText>Retirar na Loja</ButtonText>
         </ButtonSelection>
 

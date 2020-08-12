@@ -1,3 +1,5 @@
+import { Address } from '../../../modules/order/pages/LocationDetails/index';
+
 interface Product {
   amount: number;
   code: number;
@@ -23,10 +25,34 @@ interface UpdateProductAmountProps {
   amount: number;
 }
 
+interface AddAddressProps {
+  type: string;
+  deliveryAddress: Address;
+}
+
+interface AddDateTimeProps {
+  type: string;
+  deliveryDateTime: string;
+}
+
 export function addToCart(product: Product): AddProductProps {
   return {
     type: '@cart/ADD',
     product,
+  };
+}
+
+export function addAddressToCart(deliveryAddress: Address): AddAddressProps {
+  return {
+    type: '@cart/ADD_ADDRESS',
+    deliveryAddress,
+  };
+}
+
+export function addDateTimeToCart(deliveryDateTime: string): AddDateTimeProps {
+  return {
+    type: '@cart/ADD_DATE_TIME',
+    deliveryDateTime,
   };
 }
 

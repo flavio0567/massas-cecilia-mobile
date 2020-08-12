@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+/* eslint-disable import/no-duplicates */
+import React, { useEffect } from 'react';
 import { bindActionCreators } from 'redux';
 
 import { connect } from 'react-redux';
-import { View, StatusBar, Platform, Text } from 'react-native';
+import { View, StatusBar, Platform } from 'react-native';
+import { ptBR } from 'date-fns/locale';
+import { format, parseISO, getHours, getMinutes } from 'date-fns';
 
 import Icon from 'react-native-vector-icons/Feather';
 import { useAuth } from '../../../../shared/hooks/auth';
 import { formatPrice } from '../../../../util/format';
+import { useDeliveryLocalization } from '../../../../shared/hooks/deliveryLocalization';
+import { useDeliveryDateTime } from '../../../../shared/hooks/deliveryDateTime';
 
 import * as CartActions from '../../../../store/modules/cart/actions';
 
@@ -40,7 +45,7 @@ import {
 interface CartProps {
   cart: string;
   cartSize: string;
-  subTotal: string;
+  // subTotal: string;
   total: string;
 }
 
@@ -53,7 +58,6 @@ interface Product {
 
 const Cart: React.FC = ({
   navigation,
-  route,
   cart,
   removeFromCart,
   updateAmount,
@@ -62,8 +66,46 @@ const Cart: React.FC = ({
   const { navigate } = navigation;
   const { user, loading } = useAuth();
 
-  const { params } = route;
-  const [value, setValue] = useState(1);
+  const { deliveryLocalization } = useDeliveryLocalization();
+
+  const { deliveryDateTime } = useDeliveryDateTime();
+
+  let deliveryDate = format(
+    parseISO(deliveryDateTime?.deliveryDate),
+    'eeee, d, MMMM',
+    {
+      locale: ptBR,
+    },
+  );
+  console.tron.log(
+    'deliveryDateTime',
+    typeof deliveryDate,
+    deliveryDate,
+    typeof format(new Date(), 'eeee, d, MMMM'),
+    format(new Date(), 'eeee, d, MMMM', {
+      locale: ptBR,
+    }),
+  );
+
+  if (
+    deliveryDate ===
+    format(new Date(), 'eeee, d, MMMM', {
+      locale: ptBR,
+    })
+  ) {
+    deliveryDate = 'Hoje';
+  }
+
+  const deliveryHours = getHours(parseISO(deliveryDateTime?.deliveryTime));
+  const deliveryMinutes = getMinutes(parseISO(deliveryDateTime?.deliveryTime));
+
+  // console.tron.log(
+  //   'deliveryTime',
+  //   typeof deliveryHours,
+  //   deliveryHour,
+  //   typeof deliveryMinutes,
+  //   deliveryMinutes,
+  // );
 
   function increment(product: Product): void {
     updateAmount(product.id, product.amount + 1);
@@ -75,8 +117,6 @@ const Cart: React.FC = ({
 
   function handleRemoveFromCart(id: string): void {
     removeFromCart(id);
-
-    // navigate('Order');
   }
 
   function handleCloseOrder() {}
@@ -90,7 +130,7 @@ const Cart: React.FC = ({
         }}
       >
         <Header>
-          <SelectionButton onPress={() => navigate(params.caller)}>
+          <SelectionButton onPress={() => navigate('Order')}>
             <ChevronIcon name="chevron-left" size={22} />
           </SelectionButton>
 
@@ -99,7 +139,7 @@ const Cart: React.FC = ({
             backgroundColor="#FD9E63"
             barStyle="light-content"
           />
-          <StartusBarText>Menu</StartusBarText>
+          <StartusBarText>Pedido</StartusBarText>
           <SelectionButton onPress={() => navigate('Order')}>
             <ChevronIcon name="trash-2" size={22} />
           </SelectionButton>
@@ -111,20 +151,30 @@ const Cart: React.FC = ({
           <ProductLabelText>Detalhes da entrega</ProductLabelText>
         </LineSeparator>
 
-        {user ? (
-          <ProductText>{user.name}</ProductText>
+        {deliveryLocalization?.street ? (
+          <ProductText>
+            {deliveryLocalization.street}, {deliveryLocalization.numberAddress}{' '}
+            {deliveryLocalization.complementAddress
+              ? deliveryLocalization.complementAddress
+              : null}{' '}
+            {deliveryLocalization.neighborhood}
+          </ProductText>
         ) : (
           <ProductText>
-            Retirar na loja - <Icon name="map-pin" /> Avenida Prof. Adib Chaib,
-            2926
+            Retirar na loja - <Icon name="map-pin" /> Av. Prof. Adib Chaib, 2926
           </ProductText>
         )}
 
-        <ProductText>Hoje às 16:30h</ProductText>
+        {deliveryDate ? (
+          <ProductText>
+            {deliveryDate} às {deliveryHours}:{deliveryMinutes}h
+          </ProductText>
+        ) : null}
+
         <LineSeparator>
           <ProductLabelText>Detalhes do pedido</ProductLabelText>
         </LineSeparator>
-        <ListProducts>
+        <ListProducts scrollsToTop scrollEnabled>
           {cart.map((product: any) => (
             <ProductItem key={product.code}>
               <ProductDetailText>{product.name}</ProductDetailText>
@@ -180,14 +230,17 @@ const Cart: React.FC = ({
 };
 
 const mapStateToProps = (state: any): CartProps => ({
-  cart: state.cart.map((product) => ({
+  cart: state.cart.map((product: { sales_price: number; amount: number }) => ({
     ...product,
     subTotal: formatPrice(product.sales_price * product.amount),
   })),
   total: formatPrice(
-    state.cart.reduce((total, product) => {
-      return total + product.sales_price * product.amount;
-    }, 0),
+    state.cart.reduce(
+      (total: number, product: { sales_price: number; amount: number }) => {
+        return total + product.sales_price * product.amount;
+      },
+      0,
+    ),
   ),
   cartSize: state.cart.length,
 });

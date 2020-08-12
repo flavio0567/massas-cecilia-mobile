@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Feather';
 
 import Location from '../../modules/order/pages/Location';
 import LocationDetails from '../../modules/order/pages/LocationDetails';
-import DateTime from '../../modules/order/pages/DateTime';
+import DateTimeDelivery from '../../modules/order/pages/DateTimeDelivery';
 import Menu from '../../modules/order/pages/Menu';
 import Order from '../../modules/order/pages/Order';
 import Main from '../../modules/main/pages/Main';
@@ -79,8 +79,8 @@ const AppRoutes: React.FC = () => {
           }}
         />
         <App.Screen
-          name="DateTime"
-          component={DateTime}
+          name="DateTimeDelivery"
+          component={DateTimeDelivery}
           options={{
             headerShown: false,
           }}
@@ -129,7 +129,6 @@ const AppRoutes: React.FC = () => {
           ),
         }}
       />
-
       <Tab.Screen
         name="Cart"
         component={Cart}

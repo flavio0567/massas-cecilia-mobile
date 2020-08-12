@@ -14,7 +14,7 @@ export const Title = styled.Text`
   font-size: 22px;
   color: #9a948c;
   font-family: 'RobotoSlab-Medium';
-  margin: 20px 0 40px;
+  margin: 20px 0 20px;
 `;
 
 export const Image = styled.Image`
@@ -34,22 +34,20 @@ export const TextOptional = styled.Text`
   bottom: 0;
   right: 0;
   color: #9a948c;
-  margin-left: -360px;
+  margin-left: -310px;
 
   justify-content: center;
   flex-direction: row;
   align-items: center;
 `;
 
-export const RegisterButton = styled(Button)`
-  margin-top: 20px;
-`;
+export const RegisterButton = styled(Button)``;
 
 export const ReturnButton = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
 
-  top: 20px;
+  top: 5px;
   margin: 10px;
 `;
 
@@ -64,8 +62,8 @@ export const Agreement = styled.View`
   justify-content: center;
 
   flex-direction: row;
-  margin-bottom: 20px;
-  margin: 20px;
+  margin-bottom: 5px;
+  margin: 5px 15px;
 `;
 
 export const CheckBoxAgreement = styled.TouchableWithoutFeedback``;

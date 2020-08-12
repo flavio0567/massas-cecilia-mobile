@@ -80,7 +80,7 @@ export const ButtonContainer = styled.View`
   left: 0;
   bottom: 0;
   right: 0;
-  padding: 10px 0 ${60 + getBottomSpace()}px;
+  padding: 10px 0 ${360 + getBottomSpace()}px;
 
   justify-content: center;
   align-items: center;

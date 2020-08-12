@@ -4,14 +4,9 @@ type ReducerProps = {
   reducer: string;
 };
 
-interface Product {
-  name: string;
-  sales_price: number;
-}
-
 type StateProp = Array<{
   type: string;
-  product: Product;
+  payload: any;
 }>;
 
 export default function cart(state = [], action: StateProp): ReducerProps[] {
@@ -28,6 +23,20 @@ export default function cart(state = [], action: StateProp): ReducerProps[] {
             amount: 1,
           });
         }
+      });
+    case '@cart/ADD_ADDRESS':
+      return produce(state, (draft) => {
+        draft.push({
+          ...action.order,
+          deliveryAddress,
+        });
+      });
+    case '@cart/ADD_DATE_TIME':
+      return produce(state, (draft) => {
+        draft.push({
+          ...action.order,
+          deliveryDateTime,
+        });
       });
     case '@cart/REMOVE':
       return produce(state, (draft) => {
@@ -50,7 +59,6 @@ export default function cart(state = [], action: StateProp): ReducerProps[] {
         }
       });
     }
-
     default:
       return state;
   }

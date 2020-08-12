@@ -55,6 +55,12 @@ export const Content = styled.View`
   margin: 14px;
 `;
 
+export const AddressView = styled.View`
+  border-radius: 5px;
+  background: #9999;
+  padding: 8px 10px 20px;
+`;
+
 export const AddressNumberInput = styled.TextInput`
   padding: 10px;
   margin-top: 10px;
@@ -77,12 +83,6 @@ export const AddressComplementInput = styled.TextInput`
   color: #3f3f3f;
   border-radius: 5px;
   background: #e0e0e0;
-`;
-
-export const AddressView = styled.View`
-  border-radius: 5px;
-  background: #9999;
-  padding: 8px 10px 20px;
 `;
 
 export const AddressText = styled.Text`
@@ -112,7 +112,7 @@ export const IconLocation = styled(Icon).attrs({
   padding: 10px 180px 10px;
 `;
 
-export const AddressNumberView = styled.View`
+export const AddressDetailView = styled.View`
   flex-direction: row;
   justify-content: flex-start;
   align-items: baseline;
@@ -120,7 +120,7 @@ export const AddressNumberView = styled.View`
 
 export const ConfirmButton = styled(RectButton)`
   position: absolute;
-  top: 180px;
+  top: 200px;
   height: 46px;
   background: #fd9e63;
   border-radius: 10px;

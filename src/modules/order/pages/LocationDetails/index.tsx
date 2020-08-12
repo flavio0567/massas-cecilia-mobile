@@ -1,11 +1,13 @@
 import React, { useCallback, useState } from 'react';
+
 import { View, StatusBar, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import api from '../../../../shared/service/api';
+import AsyncStorage from '@react-native-community/async-storage';
+import { useDeliveryLocalization } from '../../../../shared/hooks/deliveryLocalization';
 
-import * as OrderActions from '../../../../store/modules/order/actions';
+import * as CartActions from '../../../../store/modules/cart/actions';
 
 import {
   StartusBarText,
@@ -20,7 +22,7 @@ import {
   AddressText,
   AddressLabelText,
   IconLocation,
-  AddressNumberView,
+  AddressDetailView,
   ConfirmButton,
   ConfirmText,
 } from './styles';
@@ -35,28 +37,46 @@ export interface Address {
 
 const LocationDetails: React.FC = ({ route }: any) => {
   const { userAddress } = route.params;
-
   const { navigate, goBack } = useNavigation();
-  const [addressNumber, setAddressNumber] = useState();
-  const [addressComplement, setAddressComplement] = useState();
+
+  const [numberAddress, setNumberAddress] = useState();
+  const [complementAddress, setComplementAddress] = useState();
 
   const dispatch = useDispatch();
 
-  const handleConfirmLocation = useCallback(() => {
-    let address = userAddress;
-    address += ', ';
-    address += addressNumber;
-    address += ' ';
-    address += addressComplement;
+  const { setLocalization } = useDeliveryLocalization();
 
-    console.log(userAddress);
+  const handleConfirmLocation = useCallback(async () => {
+    const item = { ...userAddress };
+    item.numberAddress = numberAddress;
+    item.complementAddress = complementAddress;
+    const deliveryAddress = item;
+
     dispatch({
       type: '@order/ADD_ADDRESS',
-      address,
+      deliveryAddress,
     });
 
-    navigate('MainStack');
-  }, [addressNumber, userAddress, dispatch, navigate, addressComplement]);
+    await AsyncStorage.removeItem('@Massas:deliveryLocalization');
+
+    AsyncStorage.setItem(
+      '@Massas:deliveryLocalization',
+      JSON.stringify(deliveryAddress),
+    );
+
+    await AsyncStorage.getItem('@Massas:deliveryLocalization');
+
+    setLocalization(deliveryAddress);
+
+    navigate('DateTimeDelivery');
+  }, [
+    numberAddress,
+    userAddress,
+    dispatch,
+    navigate,
+    complementAddress,
+    setLocalization,
+  ]);
 
   return (
     <Container>
@@ -79,30 +99,34 @@ const LocationDetails: React.FC = ({ route }: any) => {
               <IconLocation name="map-pin" />
               <AddressText>{userAddress.street}, </AddressText>
               <AddressText>
-                {userAddress.city} - {userAddress.state} -{' '}
                 {userAddress.neighborhood} - {userAddress.cep}
               </AddressText>
-
-              <AddressNumberView>
+              <AddressText>
+                {userAddress.city} - {userAddress.state}
+              </AddressText>
+              <AddressDetailView>
                 <AddressLabelText>Informe o número: </AddressLabelText>
                 <AddressNumberInput
-                  onChangeText={() => setAddressNumber(addressNumber)}
+                  onChangeText={(text) => setNumberAddress(text)}
                   autoCorrect={false}
+                  keyboardType="numeric"
+                  returnKeyType="next"
                   autoFocus
                 >
-                  {addressNumber}
+                  {numberAddress}
                 </AddressNumberInput>
-              </AddressNumberView>
+              </AddressDetailView>
 
-              <AddressNumberView>
+              <AddressDetailView>
                 <AddressLabelText>Complemento: </AddressLabelText>
                 <AddressComplementInput
-                  onChangeText={() => setAddressComplement(addressComplement)}
+                  onChangeText={(text) => setComplementAddress(text)}
+                  returnKeyType="go"
                   autoCorrect={false}
                 >
-                  {addressComplement}
+                  {complementAddress}
                 </AddressComplementInput>
-              </AddressNumberView>
+              </AddressDetailView>
             </AddressView>
           )}
           <ConfirmButton onPress={handleConfirmLocation}>
@@ -114,7 +138,7 @@ const LocationDetails: React.FC = ({ route }: any) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(OrderActions, dispatch);
+const mapDispatchToProps = (dispatch: any): any =>
+  bindActionCreators(CartActions, dispatch);
 
 export default connect(null, mapDispatchToProps)(LocationDetails);

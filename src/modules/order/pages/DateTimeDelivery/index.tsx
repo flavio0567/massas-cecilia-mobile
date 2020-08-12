@@ -1,12 +1,18 @@
 /* eslint-disable import/no-duplicates */
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useDispatch, connect } from 'react-redux';
 import { View, StatusBar, Platform } from 'react-native';
-import { ptBR, pt } from 'date-fns/locale';
-// eslint-disable-next-line import/no-duplicates
+import { ptBR } from 'date-fns/locale';
 import { formatRelative, subDays } from 'date-fns';
 
+import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { bindActionCreators } from 'redux';
+import { useDeliveryDateTime } from '../../../../shared/hooks/deliveryDateTime';
+
+import * as CartActions from '../../../../store/modules/cart/actions';
+
 import {
   Container,
   SelectButton,
@@ -17,13 +23,19 @@ import {
   OpenDataPickerButton,
   OpenDataPickerButtonText,
   ConfirmButton,
+  StartusBarText,
 } from './styles';
 
-const DateTime: React.FC = () => {
-  const { navigate, goBack } = useNavigation();
+const DateTimeDelivery: React.FC = () => {
+  const { reset, navigate, goBack } = useNavigation();
+  const dispatch = useDispatch();
+
+  const { setDateTime } = useDeliveryDateTime();
+
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedTime, setSelectedTime] = useState(new Date());
+
+  const [deliveryDate, setDeliveryDate] = useState(new Date());
+  const [deliveryTime, setDeliveryTime] = useState(new Date());
 
   const handleToggleDatePicker = useCallback(() => {
     setShowDatePicker((state) => !state);
@@ -36,7 +48,7 @@ const DateTime: React.FC = () => {
       }
 
       if (date) {
-        setSelectedDate(date);
+        setDeliveryDate(date);
       }
     },
     [],
@@ -49,11 +61,38 @@ const DateTime: React.FC = () => {
       }
 
       if (time) {
-        setSelectedTime(time);
+        setDeliveryTime(time);
       }
     },
     [],
   );
+
+  const handleConfirmDateTime = useCallback(async () => {
+    const deliveryDateTime = { deliveryDate, deliveryTime };
+
+    dispatch({
+      type: '@order/ADD_DATE_TIME',
+      deliveryDateTime,
+    });
+
+    await AsyncStorage.removeItem('@Massas:deliveryDateTime');
+
+    AsyncStorage.setItem(
+      '@Massas:deliveryDateTime',
+      JSON.stringify(deliveryDateTime),
+    );
+
+    setDateTime(deliveryDateTime);
+
+    console.tron.log(deliveryDateTime);
+
+    reset({
+      index: 0,
+      routes: [{ name: 'MainStack' }],
+    });
+
+    navigate('MainStack');
+  }, [reset, dispatch, navigate, setDateTime, deliveryDate, deliveryTime]);
 
   return (
     <Container>
@@ -69,13 +108,14 @@ const DateTime: React.FC = () => {
           </SelectButton>
 
           <StatusBar backgroundColor="#FD9E63" />
+          <StartusBarText>Horário da entrega</StartusBarText>
         </Header>
       </View>
       <View>
         <Calendar>
           <OpenDataPickerButton onPress={handleToggleDatePicker}>
             <OpenDataPickerButtonText>
-              {formatRelative(subDays(selectedDate, 0), selectedDate, {
+              {formatRelative(subDays(deliveryDate, 0), deliveryDate, {
                 locale: ptBR,
               })}
             </OpenDataPickerButtonText>
@@ -90,7 +130,7 @@ const DateTime: React.FC = () => {
                   display="default"
                   onChange={handleDateChanged}
                   textColor="#FD9E63"
-                  value={selectedDate}
+                  value={deliveryDate}
                   minimumDate={new Date()}
                 />
               </View>
@@ -101,13 +141,13 @@ const DateTime: React.FC = () => {
                   display="default"
                   onChange={handleTimeChanged}
                   textColor="#FD9E63"
-                  value={selectedTime}
+                  value={deliveryTime}
                   minuteInterval={30}
                 />
               </View>
             </DateTimeSection>
           )}
-          <ConfirmButton onPress={() => navigate('MainStack')}>
+          <ConfirmButton onPress={handleConfirmDateTime}>
             <OpenDataPickerButtonText>Confirmar</OpenDataPickerButtonText>
           </ConfirmButton>
         </Calendar>
@@ -116,4 +156,7 @@ const DateTime: React.FC = () => {
   );
 };
 
-export default DateTime;
+const mapDispatchToProps = (dispatch: any): any =>
+  bindActionCreators(CartActions, dispatch);
+
+export default connect(null, mapDispatchToProps)(DateTimeDelivery);

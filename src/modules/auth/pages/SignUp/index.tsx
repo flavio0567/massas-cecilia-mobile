@@ -172,7 +172,7 @@ const SignUp: React.FC = () => {
                   formRef.current?.submitForm();
                 }}
               />
-              <TextOptional>Opcional</TextOptional>
+              <TextOptional>E-mail Opcional</TextOptional>
 
               <Agreement>
                 <CheckBoxAgreement

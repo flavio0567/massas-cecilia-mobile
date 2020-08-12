@@ -62,9 +62,6 @@ const Location: React.FC = () => {
           </SelectionButton>
           <StatusBar backgroundColor="#FD9E63" barStyle="light-content" />
           <StartusBarText>Endereço de entrega</StartusBarText>
-          <SelectionButton onPress={() => navigate('DateTime')}>
-            <ChevronIcon name="chevron-right" size={22} />
-          </SelectionButton>
         </Header>
         <Content>
           <SearchBox>
@@ -74,6 +71,7 @@ const Location: React.FC = () => {
               value={userCep}
               placeholder="Pesquisar cep"
               onChangeText={(e) => setUserCep(e)}
+              keyboardType="numeric"
             />
             <IconSearch name="search" />
             <CleanSearch onPress={() => setUserCep('')}>

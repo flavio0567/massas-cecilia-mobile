@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { Badge } from 'react-native-elements';
@@ -39,12 +39,11 @@ const ProductDetails: React.FC = ({
   addToCart,
 }: any) => {
   const { navigate } = navigation;
-  const dispatch = useDispatch();
   const [userToken, setUserToken] = useState();
   const [product, setProduct] = useState();
   const [value, setValue] = useState(1);
 
-  const { code } = route.params;
+  const { code, caller } = route.params;
 
   useEffect(() => {
     async function getProducName(): Promise<void> {
@@ -94,7 +93,7 @@ const ProductDetails: React.FC = ({
           {product?.name ? (
             <SelectionButton
               onPress={() => {
-                navigate(product?.caller);
+                navigate(caller);
               }}
             >
               <ChevronIcon name="chevron-left" size={22} />

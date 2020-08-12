@@ -83,7 +83,7 @@ export const PlusText = styled.Text`
 
 export const ListProducts = styled(ScrollView)`
   width: 100%;
-  height: 490px;
+  height: 500px;
 `;
 
 export const ProductItem = styled.View`
@@ -92,7 +92,6 @@ export const ProductItem = styled.View`
   align-items: center;
 
   background: #fff;
-  /* padding: 10px; */
   margin: 8px 8px 5px;
   border-radius: 4px;
 `;
@@ -122,7 +121,7 @@ export const ButtonSelection = styled(RectButton)`
   height: 50px;
   background: #fd9e63;
   border-radius: 6px;
-  margin: 10px;
+  margin: 6px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
