@@ -34,9 +34,13 @@ const DeliveryDateTimeProvider: React.FC = ({ children }) => {
     const delivery = await AsyncStorage.getItem('@Massas:deliveryDateTime');
 
     if (!delivery) {
-      setData({} as DeliveryDateTimeState);
+      const deliveryDateTime = {
+        deliveryDate: new Date(''),
+        deliveryTime: new Date(''),
+      };
 
-      console.tron.log('===> data :', data);
+      setData(deliveryDateTime);
+
       return;
     }
 

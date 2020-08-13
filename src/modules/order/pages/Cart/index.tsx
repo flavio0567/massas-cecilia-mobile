@@ -1,11 +1,11 @@
 /* eslint-disable import/no-duplicates */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { bindActionCreators } from 'redux';
 
 import { connect } from 'react-redux';
 import { View, StatusBar, Platform } from 'react-native';
 import { ptBR } from 'date-fns/locale';
-import { format, parseISO, getHours, getMinutes } from 'date-fns';
+import { format, parseISO, getHours, getMinutes, isValid } from 'date-fns';
 
 import Icon from 'react-native-vector-icons/Feather';
 import { useAuth } from '../../../../shared/hooks/auth';
@@ -40,12 +40,17 @@ import {
   TextProdAmount,
   SubTotalView,
   RemoveItemButton,
+  DeliveryLabelText,
+  ItemSeparator,
+  DeliveryInfo,
+  DeliveryDateTimeInfo,
+  EditIcon,
+  DeliveryLabelView,
 } from './styles';
 
 interface CartProps {
   cart: string;
   cartSize: string;
-  // subTotal: string;
   total: string;
 }
 
@@ -70,22 +75,31 @@ const Cart: React.FC = ({
 
   const { deliveryDateTime } = useDeliveryDateTime();
 
-  let deliveryDate = format(
-    parseISO(deliveryDateTime?.deliveryDate),
-    'eeee, d, MMMM',
-    {
-      locale: ptBR,
-    },
-  );
-  console.tron.log(
-    'deliveryDateTime',
-    typeof deliveryDate,
-    deliveryDate,
-    typeof format(new Date(), 'eeee, d, MMMM'),
-    format(new Date(), 'eeee, d, MMMM', {
-      locale: ptBR,
-    }),
-  );
+  let deliveryDate;
+
+  const delivery = isValid(parseISO(deliveryDateTime.deliveryDate));
+
+  if (delivery) {
+    deliveryDate = format(
+      parseISO(deliveryDateTime.deliveryDate),
+      'eeee, d, MMMM',
+      {
+        locale: ptBR,
+      },
+    );
+  } else {
+    deliveryDateTime.deliveryDate = new Date('');
+  }
+
+  // console.tron.log(
+  //   'deliveryDateTime',
+  //   typeof deliveryDate,
+  //   deliveryDate,
+  //   typeof format(new Date(), 'eeee, d, MMMM'),
+  //   format(new Date(), 'eeee, d, MMMM', {
+  //     locale: ptBR,
+  //   }),
+  // );
 
   if (
     deliveryDate ===
@@ -97,15 +111,12 @@ const Cart: React.FC = ({
   }
 
   const deliveryHours = getHours(parseISO(deliveryDateTime?.deliveryTime));
-  const deliveryMinutes = getMinutes(parseISO(deliveryDateTime?.deliveryTime));
+  let deliveryMinutes = getMinutes(parseISO(deliveryDateTime?.deliveryTime));
 
-  // console.tron.log(
-  //   'deliveryTime',
-  //   typeof deliveryHours,
-  //   deliveryHour,
-  //   typeof deliveryMinutes,
-  //   deliveryMinutes,
-  // );
+  if (deliveryMinutes === 0) {
+    deliveryMinutes = '00';
+  }
+  console.tron.log('deliveryMinutes', deliveryMinutes);
 
   function increment(product: Product): void {
     updateAmount(product.id, product.amount + 1);
@@ -148,31 +159,74 @@ const Cart: React.FC = ({
 
       <View>
         <LineSeparator>
-          <ProductLabelText>Detalhes da entrega</ProductLabelText>
+          <ProductLabelText>Detalhes do pedido</ProductLabelText>
         </LineSeparator>
 
         {deliveryLocalization?.street ? (
-          <ProductText>
-            {deliveryLocalization.street}, {deliveryLocalization.numberAddress}{' '}
-            {deliveryLocalization.complementAddress
-              ? deliveryLocalization.complementAddress
-              : null}{' '}
-            {deliveryLocalization.neighborhood}
-          </ProductText>
+          <>
+            <DeliveryLabelView>
+              <DeliveryLabelText>Delivery</DeliveryLabelText>
+              <SelectionButton onPress={() => navigate('Main')}>
+                <EditIcon name="edit-2" size={16} />
+              </SelectionButton>
+            </DeliveryLabelView>
+            <ItemSeparator />
+          </>
         ) : (
-          <ProductText>
-            Retirar na loja - <Icon name="map-pin" /> Av. Prof. Adib Chaib, 2926
-          </ProductText>
+          <>
+            <DeliveryLabelView>
+              <DeliveryLabelText>Retirar na loja</DeliveryLabelText>
+              <SelectionButton onPress={() => navigate('Location')}>
+                <EditIcon name="edit-2" size={16} />
+              </SelectionButton>
+            </DeliveryLabelView>
+            <ItemSeparator />
+          </>
         )}
 
-        {deliveryDate ? (
-          <ProductText>
-            {deliveryDate} às {deliveryHours}:{deliveryMinutes}h
-          </ProductText>
-        ) : null}
+        <DeliveryInfo>
+          {deliveryLocalization?.street ? (
+            <>
+              <ProductText>
+                {deliveryLocalization.street},{' '}
+                {deliveryLocalization.numberAddress}{' '}
+                {deliveryLocalization.complementAddress
+                  ? deliveryLocalization.complementAddress
+                  : null}{' '}
+                {deliveryLocalization.neighborhood}
+              </ProductText>
+              <SelectionButton onPress={() => navigate('Location')}>
+                <EditIcon name="edit-2" size={16} />
+              </SelectionButton>
+            </>
+          ) : (
+            <>
+              <ProductText>
+                <Icon name="map-pin" /> Avenida Prof. Adib Chaib, 2926
+              </ProductText>
+              {/* <SelectionButton onPress={() => navigate('DeliveryStack')}>
+                <EditIcon name="edit-2" size={16} />
+              </SelectionButton> */}
+            </>
+          )}
+        </DeliveryInfo>
+        <ItemSeparator />
+
+        <DeliveryDateTimeInfo>
+          {deliveryDate ? (
+            <>
+              <ProductText>
+                {deliveryDate} às {deliveryHours}:{deliveryMinutes}h
+              </ProductText>
+              <SelectionButton onPress={() => navigate('DateTimeDelivery')}>
+                <EditIcon name="edit-2" size={16} />
+              </SelectionButton>
+            </>
+          ) : null}
+        </DeliveryDateTimeInfo>
 
         <LineSeparator>
-          <ProductLabelText>Detalhes do pedido</ProductLabelText>
+          <ProductLabelText>Itens do pedido</ProductLabelText>
         </LineSeparator>
         <ListProducts scrollsToTop scrollEnabled>
           {cart.map((product: any) => (

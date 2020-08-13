@@ -107,7 +107,6 @@ export const ButtonText = styled.Text`
 
 export const LineSeparator = styled.View`
   width: 100%;
-  /* margin-top: 30px; */
   border: 20px;
   border-color: #999999;
 `;

@@ -2,6 +2,10 @@ import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/Feather';
 import { RectButton } from 'react-native-gesture-handler';
 
+interface HourProps {
+  available: boolean;
+}
+
 export const StartusBarText = styled.Text`
   font-size: 18px;
   flex: 1;
@@ -22,22 +26,7 @@ export const Header = styled.SafeAreaView`
   align-items: center;
 `;
 
-export const BannerView = styled.View``;
-
-export const BannerText = styled.Text`
-  font-size: 24px;
-  font-family: 'RobotoSlab-Regular';
-  color: #fd9e63;
-
-  margin: -40px 40px 30px;
-`;
-
-export const BannerImage = styled.Image`
-  width: 100%;
-  height: 60px;
-  border-radius: 5px;
-  opacity: 0.3;
-`;
+export const ContentDateTime = styled.ScrollView``;
 
 export const ChevronIcon = styled(Icon)`
   margin-left: 10px;
@@ -86,4 +75,41 @@ export const ConfirmButton = styled(RectButton)`
   justify-content: center;
   margin: 100px 24px;
   width: 365px;
+`;
+
+export const Schedule = styled.View`
+  padding: 24px 0 16px;
+`;
+
+export const ScheduleText = styled.Text`
+  font-size: 18px;
+  color: #999591;
+  font-family: 'RobotoSlab-Medium';
+  margin: 0 24px 12px;
+`;
+
+export const Section = styled.View`
+  margin-bottom: 24px;
+`;
+
+export const SectionContent = styled.ScrollView.attrs({
+  contentContainerStyle: { paddingHorizontal: 24 },
+  horizontal: true,
+  showsHorizontalScrollIndicator: false,
+})``;
+
+export const Hour = styled.View<HourProps>`
+  padding: 12px;
+  background: #efc06e;
+  /* background: #3e3b47; */
+  border-radius: 10px;
+  margin-right: 8px;
+
+  opacity: ${(props) => (props.available ? 1 : 0.3)};
+`;
+
+export const HourText = styled.Text`
+  color: #f4ede8;
+  font-family: 'RobotoSlab-Regular';
+  font-size: 16px;
 `;

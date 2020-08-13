@@ -45,6 +45,12 @@ export const LineSeparator = styled.View`
   background-color: #dcdcdc;
 `;
 
+export const ItemSeparator = styled.View`
+  width: 100%;
+  border: 0.5px;
+  border-color: #dcdcdc;
+`;
+
 export const ProductLabelText = styled.Text`
   flex-flow: row wrap;
   margin: 0px 10px 0;
@@ -54,11 +60,44 @@ export const ProductLabelText = styled.Text`
   padding: 10px;
 `;
 
+export const DeliveryLabelView = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const DeliveryInfo = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const DeliveryDateTimeInfo = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const EditIcon = styled(Icon)`
+  /* margin-right: 10px; */
+  color: #999;
+`;
+
 export const ProductText = styled.Text`
   flex-flow: row wrap;
   margin: 2px 10px 0;
   color: #3f3f3f;
-  font-size: 18px;
+  font-size: 14px;
+  font-family: 'RobotoSlab-Regular';
+  padding: 10px;
+  width: 350px;
+`;
+
+export const DeliveryLabelText = styled.Text`
+  flex-flow: row wrap;
+  margin: 2px 10px 0;
+  color: #3f3f3f;
+  font-size: 12px;
   font-family: 'RobotoSlab-Regular';
   padding: 10px;
 `;
@@ -83,7 +122,7 @@ export const PlusText = styled.Text`
 
 export const ListProducts = styled(ScrollView)`
   width: 100%;
-  height: 500px;
+  height: 450px;
 `;
 
 export const ProductItem = styled.View`

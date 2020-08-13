@@ -39,15 +39,13 @@ const DeliveryLocalizationProvider: React.FC = ({ children }) => {
     const delivery = await AsyncStorage.getItem('@Massas:deliveryLocalization');
 
     if (!delivery) {
-      console.tron.log('===> date time :', delivery);
       setData({} as DeliveryLocalizationState);
 
-      console.tron.log('===> data :', data);
       return;
     }
 
     setData(JSON.parse(delivery));
-  }, []);
+  }, [data]);
 
   return (
     <DeliveryLocalizationContext.Provider

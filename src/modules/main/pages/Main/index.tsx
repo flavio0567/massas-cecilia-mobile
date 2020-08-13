@@ -61,7 +61,7 @@ const Main: React.FC = () => {
       />
 
       <TitleView>
-        <Title>Crie seu pedido</Title>
+        <Title>Entrega do pedido</Title>
         <SubTitle>escolha uma das opções abaixo</SubTitle>
       </TitleView>
 

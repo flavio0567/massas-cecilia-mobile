@@ -142,6 +142,7 @@ const AppRoutes: React.FC = () => {
               style={{ padding: 8 }}
             />
           ),
+          tabBarBadge: 3,
         }}
       />
     </Tab.Navigator>
