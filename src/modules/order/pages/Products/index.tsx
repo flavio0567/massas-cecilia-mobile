@@ -121,7 +121,16 @@ const Products: React.FC = ({ navigation, route, cartSize }: any) => {
         data={selected}
         keyExtractor={(item: Product) => String(item.code)}
         renderItem={({ item }) => (
-          <SectionSeparator>
+          <SectionSeparator
+            onPress={() => {
+              navigate('ProductDetails', {
+                code: item.code,
+                name: item.name,
+                sales_price: item.sales_price,
+                caller: 'Products',
+              });
+            }}
+          >
             <View>
               <ProductText>{item.name}</ProductText>
               <ComplementText>

@@ -91,16 +91,6 @@ const Cart: React.FC = ({
     deliveryDateTime.deliveryDate = new Date('');
   }
 
-  // console.tron.log(
-  //   'deliveryDateTime',
-  //   typeof deliveryDate,
-  //   deliveryDate,
-  //   typeof format(new Date(), 'eeee, d, MMMM'),
-  //   format(new Date(), 'eeee, d, MMMM', {
-  //     locale: ptBR,
-  //   }),
-  // );
-
   if (
     deliveryDate ===
     format(new Date(), 'eeee, d, MMMM', {
@@ -109,14 +99,6 @@ const Cart: React.FC = ({
   ) {
     deliveryDate = 'Hoje';
   }
-
-  const deliveryHours = getHours(parseISO(deliveryDateTime?.deliveryTime));
-  let deliveryMinutes = getMinutes(parseISO(deliveryDateTime?.deliveryTime));
-
-  if (deliveryMinutes === 0) {
-    deliveryMinutes = '00';
-  }
-  console.tron.log('deliveryMinutes', deliveryMinutes);
 
   function increment(product: Product): void {
     updateAmount(product.id, product.amount + 1);
@@ -130,7 +112,10 @@ const Cart: React.FC = ({
     removeFromCart(id);
   }
 
-  function handleCloseOrder() {}
+  function handleCloseOrder(): void {
+    console.tron.log('Close order!');
+    navigate('Success');
+  }
 
   return (
     <Container>
@@ -216,7 +201,7 @@ const Cart: React.FC = ({
           {deliveryDate ? (
             <>
               <ProductText>
-                {deliveryDate} às {deliveryHours}:{deliveryMinutes}h
+                {deliveryDate} às {deliveryDateTime?.deliveryTime}h
               </ProductText>
               <SelectionButton onPress={() => navigate('DateTimeDelivery')}>
                 <EditIcon name="edit-2" size={16} />
@@ -268,14 +253,8 @@ const Cart: React.FC = ({
       </View>
 
       <ButtonContainer>
-        <ButtonSelection
-          onPress={() => {
-            handleCloseOrder();
-          }}
-        >
-          <ButtonText onPress={() => navigate('Success')}>
-            Encerrar o pedido
-          </ButtonText>
+        <ButtonSelection onPress={handleCloseOrder}>
+          <ButtonText>Encerrar o pedido</ButtonText>
           <ButtonText>{total}</ButtonText>
         </ButtonSelection>
       </ButtonContainer>

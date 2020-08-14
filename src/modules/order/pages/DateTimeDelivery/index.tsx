@@ -4,12 +4,12 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { useDispatch, connect } from 'react-redux';
 import { View, StatusBar, Platform } from 'react-native';
 import { ptBR } from 'date-fns/locale';
-import { format, formatRelative, subDays, getHours } from 'date-fns';
+import { format, getHours } from 'date-fns';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { bindActionCreators } from 'redux';
-import { addMinutes } from 'date-fns/esm';
+
 import { useDeliveryDateTime } from '../../../../shared/hooks/deliveryDateTime';
 
 import * as CartActions from '../../../../store/modules/cart/actions';
@@ -38,15 +38,21 @@ import {
 
 const DateTimeDelivery: React.FC = () => {
   const { reset, navigate, goBack } = useNavigation();
+  const [selectedHour, setSelectedHour] = useState(0);
+  // const [selectedHalfHour, setSelectedHalfHour] = useState(0);
+
   const dispatch = useDispatch();
 
   const { setDateTime } = useDeliveryDateTime();
 
   const [showDatePicker, setShowDatePicker] = useState(false);
 
-  const [deliveryDate, setDeliveryDate] = useState(addMinutes(new Date(), 30));
+  const [deliveryDate, setDeliveryDate] = useState(new Date());
 
   const deliveryAvailability = useMemo(() => {
+    deliveryDate.setHours(0);
+    deliveryDate.setMinutes(0);
+
     const formattedDate = format(deliveryDate, 'eeee, d, MMMM', {
       locale: ptBR,
     });
@@ -80,29 +86,25 @@ const DateTimeDelivery: React.FC = () => {
       }
     }
 
-    // console.tron.log(weekDay, startHour.slice(1, 2), endHour.slice(0, 2));
-
     return Hours.filter(
       ({ hour }) =>
         hour >= Number(startHour.slice(1, 2)) &&
-        hour < Number(endHour.slice(0, 2)),
+        hour <= Number(endHour.slice(0, 2)),
     ).map(({ hour }) => {
-      const num = Number(getHours(new Date(2020, 8, 12, 10, 0)));
+      const num = Number(getHours(new Date()));
       if (formattedDate === today) {
-        if (hour >= num) {
+        if (hour > num) {
           available = true;
         } else {
           available = false;
         }
       }
 
-      console.tron.log('data de hoje ', formattedDate, today);
-
       return {
         hour,
         available,
         hourFullFormatted: format(new Date().setHours(hour), 'HH:00'),
-        hourHalfFormatted: format(new Date().setHours(hour), 'HH:30'),
+        // hourHalfFormatted: format(new Date().setHours(hour), 'HH:30'),
       };
     });
   }, [deliveryDate]);
@@ -125,8 +127,12 @@ const DateTimeDelivery: React.FC = () => {
   );
 
   const handleConfirmDateTime = useCallback(async () => {
-    const deliveryDateTime = { deliveryDate };
-    console.tron.log('deliveryDate', deliveryDate);
+    const deliveryDateTime = {
+      deliveryDate,
+      deliveryTime: format(new Date().setHours(selectedHour), 'HH:00'),
+    };
+
+    console.tron.log('deliveryDate =========>', deliveryDateTime);
     dispatch({
       type: '@order/ADD_DATE_TIME',
       deliveryDateTime,
@@ -149,7 +155,15 @@ const DateTimeDelivery: React.FC = () => {
     });
 
     navigate('MainStack');
-  }, [reset, dispatch, navigate, setDateTime, deliveryDate]);
+  }, [reset, dispatch, navigate, setDateTime, deliveryDate, selectedHour]);
+
+  const handleSelectHour = useCallback((hour: number) => {
+    setSelectedHour(hour);
+  }, []);
+
+  // const handleSelectHalfHour = useCallback((hour: number) => {
+  //   setSelectedHalfHour(hour);
+  // }, []);
 
   return (
     <Container>
@@ -172,9 +186,10 @@ const DateTimeDelivery: React.FC = () => {
         <Calendar>
           <OpenDataPickerButton onPress={handleToggleDatePicker}>
             <OpenDataPickerButtonText>
-              {formatRelative(subDays(deliveryDate, 0), deliveryDate, {
+              Escolha a data
+              {/* {formatRelative(subDays(deliveryDate, 0), deliveryDate, {
                 locale: ptBR,
-              })}
+              })} */}
             </OpenDataPickerButtonText>
           </OpenDataPickerButton>
 
@@ -193,9 +208,6 @@ const DateTimeDelivery: React.FC = () => {
               </View>
             </DateTimeSection>
           )}
-          <ConfirmButton onPress={handleConfirmDateTime}>
-            <OpenDataPickerButtonText>Confirmar</OpenDataPickerButtonText>
-          </ConfirmButton>
         </Calendar>
 
         <Schedule>
@@ -204,22 +216,39 @@ const DateTimeDelivery: React.FC = () => {
           <Section>
             <SectionContent>
               {deliveryAvailability.map(
-                ({ hourFullFormatted, hourHalfFormatted, available }) => (
+                ({ hourFullFormatted, hour, available }) => (
                   <>
-                    <Hour available={available} key={hourFullFormatted}>
-                      <HourText>
-                        {hourFullFormatted} {available}
+                    <Hour
+                      enabled={available}
+                      selected={selectedHour === hour}
+                      available={available}
+                      key={hourFullFormatted}
+                      onPress={() => handleSelectHour(hour)}
+                    >
+                      <HourText selected={selectedHour === hour}>
+                        {hourFullFormatted}
                       </HourText>
                     </Hour>
-                    <Hour available={available} key={hourHalfFormatted}>
-                      <HourText>{hourHalfFormatted}</HourText>
-                    </Hour>
+                    {/* <HalfHour
+                      enabled={available}
+                      selected={selectedHour === hour}
+                      available={available}
+                      key={hourHalfFormatted}
+                      onPress={() => handleSelectHalfHour(hour)}
+                    >
+                      <HalfHourText selected={selectedHalfHour === hour}>
+                        {hourHalfFormatted}
+                      </HalfHourText>
+                    </HalfHour> */}
                   </>
                 ),
               )}
             </SectionContent>
           </Section>
         </Schedule>
+        <ConfirmButton onPress={handleConfirmDateTime}>
+          <OpenDataPickerButtonText>Confirmar</OpenDataPickerButtonText>
+        </ConfirmButton>
       </ContentDateTime>
     </Container>
   );

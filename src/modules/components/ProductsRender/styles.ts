@@ -11,7 +11,7 @@ export const ProductImg = styled.Image`
   margin: 10px;
 `;
 
-export const SectionSeparator = styled.View`
+export const SectionSeparator = styled.TouchableOpacity`
   flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;

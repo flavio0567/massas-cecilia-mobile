@@ -38,7 +38,7 @@ export const SelectionButton = styled.TouchableOpacity`
   padding: 5px;
 `;
 
-export const SectionSeparator = styled.View`
+export const SectionSeparator = styled.TouchableOpacity`
   flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;
@@ -71,17 +71,18 @@ export const ComplementText = styled.Text`
 
 export const SearchBox = styled.View`
   background: #fff;
-  padding-left: 10px;
-  /* align-content: center; */
+  padding: 0 10px 10px;
+  align-content: center;
 `;
 
 export const InputSearch = styled.TextInput`
-  padding: 10px 28px 0px;
-  font-size: 20px;
+  padding: 2px 28px 0px;
+  font-size: 18px;
   line-height: 30px;
   font-family: 'RobotoSlab-Regular';
   width: 500px;
   max-height: 64px;
+  color: #fd9e63;
 `;
 
 export const IconSearch = styled(Icon).attrs({

@@ -13,79 +13,87 @@ import Main from '../../modules/main/pages/Main';
 import Products from '../../modules/order/pages/Products';
 import ProductDetails from '../../modules/order/pages/ProductDetails';
 import Cart from '../../modules/order/pages/Cart';
+import Success from '../../modules/order/pages/Success';
 
-const App = createStackNavigator();
+const Stack = createStackNavigator();
 
 const Tab = createBottomTabNavigator();
 
 const AppRoutes: React.FC = () => {
   const MainStackScreen = useCallback(() => {
     return (
-      <App.Navigator>
-        <App.Screen
+      <Stack.Navigator>
+        <Stack.Screen
           name="Order"
           component={Order}
           options={{
             headerShown: false,
           }}
         />
-        <App.Screen
+        <Stack.Screen
           name="Menu"
           component={Menu}
           options={{
             headerShown: false,
           }}
         />
-        <App.Screen
+        <Stack.Screen
           name="Products"
           component={Products}
           options={{
             headerShown: false,
           }}
         />
-        <App.Screen
+        <Stack.Screen
           name="ProductDetails"
           component={ProductDetails}
           options={{
             headerShown: false,
           }}
         />
-      </App.Navigator>
+        <Stack.Screen
+          name="Success"
+          component={Success}
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack.Navigator>
     );
   }, []);
 
   const DeliveryStackScreen = useCallback(() => {
     return (
-      <App.Navigator>
-        <App.Screen
+      <Stack.Navigator>
+        <Stack.Screen
           name="Main"
           component={Main}
           options={{
             headerShown: false,
           }}
         />
-        <App.Screen
+        <Stack.Screen
           name="Location"
           component={Location}
           options={{
             headerShown: false,
           }}
         />
-        <App.Screen
+        <Stack.Screen
           name="LocationDetails"
           component={LocationDetails}
           options={{
             headerShown: false,
           }}
         />
-        <App.Screen
+        <Stack.Screen
           name="DateTimeDelivery"
           component={DateTimeDelivery}
           options={{
             headerShown: false,
           }}
         />
-      </App.Navigator>
+      </Stack.Navigator>
     );
   }, []);
 
@@ -142,7 +150,7 @@ const AppRoutes: React.FC = () => {
               style={{ padding: 8 }}
             />
           ),
-          tabBarBadge: 3,
+          // tabBarBadge: 3,
         }}
       />
     </Tab.Navigator>

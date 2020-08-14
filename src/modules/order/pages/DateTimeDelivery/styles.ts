@@ -4,7 +4,20 @@ import { RectButton } from 'react-native-gesture-handler';
 
 interface HourProps {
   available: boolean;
+  selected: boolean;
 }
+interface HourTextProps {
+  selected: boolean;
+}
+
+// interface HalfHourProps {
+//   available: boolean;
+//   selected: boolean;
+// }
+
+// interface HalfHourTextProps {
+//   halfHourSelected: boolean;
+// }
 
 export const StartusBarText = styled.Text`
   font-size: 18px;
@@ -98,18 +111,32 @@ export const SectionContent = styled.ScrollView.attrs({
   showsHorizontalScrollIndicator: false,
 })``;
 
-export const Hour = styled.View<HourProps>`
+export const Hour = styled(RectButton)<HourProps>`
   padding: 12px;
-  background: #efc06e;
-  /* background: #3e3b47; */
+  background: ${(props) => (props.selected ? '#ff9000' : '#efc06e')};
   border-radius: 10px;
   margin-right: 8px;
 
   opacity: ${(props) => (props.available ? 1 : 0.3)};
 `;
 
-export const HourText = styled.Text`
-  color: #f4ede8;
+export const HourText = styled.Text<HourTextProps>`
+  color: ${(props) => (props.selected ? '#232129' : '#f4ede8')};
   font-family: 'RobotoSlab-Regular';
   font-size: 16px;
 `;
+
+// export const HalfHour = styled(RectButton)<HalfHourProps>`
+//   padding: 12px;
+//   background: ${(props) => (props.selected ? '#ff9000' : '#efc06e')};
+//   border-radius: 10px;
+//   margin-right: 8px;
+
+//   opacity: ${(props) => (props.available ? 1 : 0.3)};
+// `;
+
+// export const HalfHourText = styled.Text<HalfHourTextProps>`
+//   color: ${(props) => (props.halfHourSelected ? '#232129' : '#f4ede8')};
+//   font-family: 'RobotoSlab-Regular';
+//   font-size: 16px;
+// `;

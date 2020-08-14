@@ -55,10 +55,10 @@ export const CartIcon = styled(Icon)`
 `;
 
 export const ProductList = styled(FlatList as new () => FlatList<Product>)`
-  padding: 6px 10px 12px;
+  /* padding: 6px 10px 12px;
 
   flex-direction: row;
-  padding-right: 10px;
+  padding-right: 10px; */
 `;
 
 export const ProductImg = styled.Image`

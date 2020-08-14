@@ -36,7 +36,11 @@ const ProductRender: React.FC = ({ data }: any) => {
 
   return (
     <Container>
-      <SectionSeparator>
+      <SectionSeparator
+        onPress={() => {
+          navigateToProducts(data.product_family, data.category, data.code);
+        }}
+      >
         {data.avatar_url ? (
           <ProductImg source={{ uri: data.avatar_url }} />
         ) : (
